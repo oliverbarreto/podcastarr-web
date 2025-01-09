@@ -1,0 +1,4 @@
+node_modules
+.next
+!node_modules/.prisma
+!node_modules/@prisma

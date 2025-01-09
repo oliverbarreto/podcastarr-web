@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    # environment:
+    #   DATABASE_URL: file:./dev.db
+    ports:
+      - 3000:3000
+    volumes:
+      - ./prisma/dev.db:/app/prisma/dev.db:rw # Mount the database file with correct ownership
