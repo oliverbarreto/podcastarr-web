@@ -20,10 +20,28 @@
 
 ### Local development
 
-1. Clone the repository
+1. Clone the gith repository `git clone https://github.com/oliverbarreto/podcastarr-web.git`
 2. Run `npm install`
-3. Run `npm run dev` to test locally
-4. Create the Database
+3. Add `.env` file with database connection string:
+
+```yaml
+# Environment variables declared in this file are automatically made available to Prisma.
+# See the documentation for more detail: https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema
+
+# Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB and CockroachDB.
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+
+# For local development
+DATABASE_URL="file:./dev.db"
+```
+
+4. Run `npx prisma migrate dev --name init` to create the database and make it available to the application. The Schema is already in the code. This command did three things:
+
+- It creates a new SQL migration file for this migration in the `prisma/migrations` directory.
+- It executes the SQL migration file against the database.
+- It runs prisma generate under the hood (which installed the `@prisma/client` package and generates a tailored **Prisma Client API** based on your models).
+
+5. Run `npm run dev` to test locally
 
 ### Prisma Database setup in development
 
