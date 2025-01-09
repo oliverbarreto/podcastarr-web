@@ -18,20 +18,36 @@
 
 ## Installation
 
+### Local development
+
 1. Clone the repository
 2. Run `npm install`
 3. Run `npm run dev` to test locally
-4. Create the Database:
+4. Create the Database
+
+### Prisma Database setup in development
 
 - https://www.prisma.io/docs/getting-started/quickstart-sqlite
 
-  At this point, you have a Prisma schema but no database yet. Run the following command in your terminal to create the SQLite database and the User and Post tables represented by your models in the schema.
+1. Then, install the Prisma CLI as a development dependency in the project:
 
-Run:
-`npm run seed` to test and seed the database with a test podcast channel
+`npm install prisma --save-dev`
 
-or, directly... Run a migration to create your database tables with Prisma Migrate with:
+Finally, set up Prisma ORM with the init command of the Prisma CLI:
+
+`npx prisma init --datasource-provider sqlite`
+
+2. Add schema.prisma file to the project
+   The Prisma schema provides an intuitive way to model data. Add the following models to your schema.prisma file:
+
+This creates a new prisma directory with a schema.prisma file and configures SQLite as your database. You're now ready to model your data and create your database with some tables.
+
+3. At this point, you have a Prisma schema but no database yet. Run the following command in your terminal to create the SQLite database and the User and Post tables represented by your models in the schema.
+
+Run a migration to create your database tables with Prisma Migrate with:
 `npx prisma migrate dev --name init` to create the database and make it available to the application
+
+(Run: `npm run seed` to test and seed the database with a test podcast channel)
 
 This command did three things:
 
