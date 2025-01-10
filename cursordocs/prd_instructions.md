@@ -21,7 +21,7 @@
 - Incorporate Shadcn UI to project
 - Create basic Profile Page to set user info and channel required info for iTunes
 
-### Step 2 - Model
+### Step 2 - Initial Model (Not sure this is going to be modified later)
 
 - Create a model for the channel named 'PodcastChannel' with the following fields:
   - name
@@ -73,7 +73,7 @@ Profile page to set user info and channel required info for iTunes (/profile)
 
 - All pages MUST USE toast for notifications of events (success, error, info, warning) when interacting with the app for:
 
-- managing channel info (add, update)
+- (DONE) managing channel info (add, update)
 - managing episodes (add, delete, edit)
 
 #### Channel Page

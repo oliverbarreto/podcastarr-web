@@ -9,8 +9,16 @@ import Footer from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "PodcastARR",
-  description: "When Podcast killed the Youtube Star"
+  title: "PodcastARR | Your personal podcast platform",
+  description: "When Podcast killed the Youtube Star",
+  icons: {
+    icon: [
+      {
+        url: "/favicon.svg",
+        href: "/favicon.svg"
+      }
+    ]
+  }
 }
 
 export default function RootLayout({
