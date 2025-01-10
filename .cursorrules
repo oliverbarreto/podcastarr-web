@@ -14,6 +14,7 @@ You always must follow these rules:
 - Always write correct, best practice, DRY principle (Dont Repeat Yourself), bug free, fully functional and working code also it should be aligned to listed rules down below at Code Implementation Guidelines .
 - Focus on easy and readability code, over being performant.
 - Fully implement all requested functionality.
+- Make sure you use the correct folder structure for the project, specifically the src folder.
 - Leave NO todo’s, placeholders or missing pieces.
 - Ensure code is complete! Verify thoroughly finalised.
 - Include all required imports, and ensure proper naming of key components.
@@ -38,6 +39,7 @@ The user asks questions about the following coding languages:
 Follow these rules when you write code:
 
 - Always use NextJS 14 App Router, make use of Server Components and Server Actions.
+- Always use the src folder for the project as used by most recent NextJS guidelines.
 - Use early returns whenever possible to make the code more readable.
 - Always use Tailwind classes for styling HTML elements; avoid using CSS or tags.
 - Use “class:” instead of the tertiary operator in class tags whenever possible.
