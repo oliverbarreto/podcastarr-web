@@ -16,32 +16,99 @@
 </br>
 </br>
 
-## Installation
+## Introduction
+
+There is a better way to enjoy interesting media content than watching videos.
+
+Create your pesonal podcast channel made of youTube videos of your choice and start listening to your channel whenever you want, on-the-go, on the bus, at the gym, etc.
+
+This is a personal project designed to be self-hosted and deployed on a server as open source project for personal use.
+
+It is perfect for homelab enthusiasts and people who want to create a podcast channel with episodes created extracting audio from Youtube videos of different topics to listen to them whenever you want.
+
+## Tech Stack
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [Next.js](https://nextjs.org/)
+
+  - Server components
+  - Server actions
+
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Lucide React Icons](https://lucide.dev/icons)
+- [Prisma](https://prisma.io/)
+- [Recharts Graph Library](https://recharts.org/)
+- [SQLite](https://www.sqlite.org/)
+- [Docker](https://www.docker.com/)
+- [nginx proxy manager](https://nginxproxymanager.com/) this is a pre-requisite for the project to work with iTunes Podcast / Apple Podcasts. The RSS Feed of the podcast channel is required by Apple Podcasts to be accessible via https.
+
+Future:
+
+- [Resend](https://resend.com/)
+- [Redis](https://redis.io/) or [Upstash](https://upstash.com/)
+- [Neon Postgres](https://neon.tech/)
+
+## Features
+
+- [x] Create a personal podcast channel with episodes created extracting audio from Youtube videos
+
+## Local Development
+
+### Prerequisites for local development
+
+Make sure you have the following installed on your machine:
+
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
 
 ### Local development
 
-1. Clone the gith repository `git clone https://github.com/oliverbarreto/podcastarr-web.git`
-2. Run `npm install`
-3. Add `.env` file with database connection string:
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+1. Clone the gith repository
+
+```bash
+git clone https://github.com/oliverbarreto/podcastarr-web.git
+cd podcastarr-web
+```
+
+2. Install the dependencies:
+
+```bash
+npm install
+```
+
+The package.json has the dependencies for the project, including `prisma` and `@prisma/client`.
+
+- Must have installed first `npm install prisma --save-dev` and `npm install prisma/client`
+- [Prima Getting Started docs with SQLite](https://www.prisma.io/docs/getting-started/quickstart-sqlite)
+
+3. Setup Variables by adding `.env` in the root directory of the project using the template 'env.example' file with database connection string:
 
 ```yaml
-# Environment variables declared in this file are automatically made available to Prisma.
-# See the documentation for more detail: https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema
-
-# Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB and CockroachDB.
-# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
-
 # For local development
 DATABASE_URL="file:./dev.db"
 ```
 
+If you are goig to use docker make sure to change the file location in '.env' file and use `DATABASE_URL="file:/app/prisma/dev.db"`
+
 4. Run `npx prisma migrate dev --name init` to create the database and make it available to the application. The Schema is already in the code. This command did three things:
+
+5. Run `npx prisma migrate dev --name init` to create the database and make it available to the application. The Schema is already in the code. This command did three things:
 
 - It creates a new SQL migration file for this migration in the `prisma/migrations` directory.
 - It executes the SQL migration file against the database.
 - It runs prisma generate under the hood (which installed the `@prisma/client` package and generates a tailored **Prisma Client API** based on your models).
 
-5. Run `npm run dev` to test locally
+5. First, run the development server locally:
+
+```bash
+npm run dev
+```
+
+6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ### Prisma Database setup in development
 
@@ -77,52 +144,34 @@ Because the SQLite database file didn't exist before, the command also created i
 
 Congratulations, you now have your database and tables ready. Let's go and learn how you can send some queries to read and write data!
 
-## Deploy
+## Deploy with Docker
 
-### Deploy on Docker
+0. Copy the contents of the project to a folder in your server
 
-0. Add `.env` file with `DATABASE_URL` with DB location for prisma client
+1. Modify `.env` file with `DATABASE_URL` with DB location for prisma client for Docker location:
 
-1. Add Dockerfile.dev, add `output: "standalone"` to `next.config.mjs`
+```bash
+DATABASE_URL="file:/app/prisma/dev.db"
+```
 
-2. Build the Docker image
-   `docker build -t nextjs-app-dev -f Dockerfile.dev .`
+2. Add Dockerfile.dev, add `output: "standalone"` to `next.config.mjs` if not already added
 
-3. Run the container
-   `docker run -p 3000:3000 nextjs-app-dev`
+3. Run Docker compose file to run the project:
 
-4. Maybe you want to seed the database: Seed the database using the script in `prisma/seed.ts`
-   `docker exec -it nextjs-app-dev npm run seed`
+```bash
+docker compose up -d --build
+```
 
-### Deploy on Vercel
+> NOT USED:
+> Maybe you want to seed the database: Seed the database using the script in `prisma/seed.ts` > `docker exec -it nextjs-app-dev npm run seed`
+
+## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-## Getting Started with Next.js
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
+## Learn More about Next.js
 
 To learn more about Next.js, take a look at the following resources:
 

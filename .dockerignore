@@ -2,3 +2,9 @@ node_modules
 .next
 !node_modules/.prisma
 !node_modules/@prisma
+next.config.mjs
+.git
+.gitignore
+Dockerfile
+docker-compose.yaml
+
