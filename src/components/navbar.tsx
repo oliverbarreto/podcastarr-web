@@ -3,16 +3,19 @@
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Search, X, Podcast } from "lucide-react"
-
+import { Search, X, Podcast, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { getProfileImage } from "@/actions/profile"
+import { useProfileStore } from "@/store/profile-store"
 
 const Navbar = () => {
   const pathname = usePathname()
   const [isSearchExpanded, setIsSearchExpanded] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const { profileImage, updateProfile } = useProfileStore()
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -41,9 +44,22 @@ const Navbar = () => {
 
   const navLinks = [
     { href: "/channel", label: "Channel" },
-    { href: "/stats", label: "Stats" },
-    { href: "/profile", label: "Profile" }
+    { href: "/stats", label: "Stats" }
   ]
+
+  // Initialize store with server data
+  useEffect(() => {
+    const initializeProfile = async () => {
+      try {
+        const profileImage = await getProfileImage()
+        updateProfile(profileImage, null) // Add userName when available
+      } catch (error) {
+        console.error("Error fetching profile:", error)
+      }
+    }
+
+    initializeProfile()
+  }, [updateProfile])
 
   return (
     <nav className="border-b">
@@ -101,6 +117,14 @@ const Navbar = () => {
               )}
             </div>
             <ThemeToggle />
+            <Link href="/profile" className="hover:opacity-80">
+              <Avatar>
+                <AvatarImage src={profileImage || undefined} alt="Profile" />
+                <AvatarFallback>
+                  <User className="h-5 w-5" />
+                </AvatarFallback>
+              </Avatar>
+            </Link>
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@
 - Use NextJS routing, server actions, and server components
 - Use Prisma as ORM
 - Use SQLite as data base
+- Use Zustand for state management
 - Use recharts library to create graphs
 - Use ytdl-core to download audio from Youtube
 - Use ffmpeg to convert audio to m4a format

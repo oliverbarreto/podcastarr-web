@@ -12,6 +12,7 @@ import {
   getCurrentChannel,
   updateChannel
 } from "@/actions/profile_page_actions"
+import { useProfileStore } from "@/store/profile-store"
 
 // Create a type based on your Prisma schema
 type PodcastChannel = {
@@ -29,6 +30,7 @@ export default function ProfilePage() {
   const [channelInfo, setChannelInfo] = useState<PodcastChannel | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { updateProfile } = useProfileStore()
 
   useEffect(() => {
     let mounted = true
@@ -94,6 +96,7 @@ export default function ProfilePage() {
 
             if (result.success && result.data) {
               setChannelInfo(result.data)
+              updateProfile(result.data.imageUrl, result.data.userName)
               toast({
                 title: "Success",
                 description: "Channel information updated successfully"

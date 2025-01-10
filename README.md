@@ -38,8 +38,9 @@ It is perfect for homelab enthusiasts and people who want to create a podcast ch
 - [shadcn/ui](https://ui.shadcn.com/)
 - [Lucide React Icons](https://lucide.dev/icons)
 - [Prisma](https://prisma.io/)
-- [Recharts Graph Library](https://recharts.org/)
 - [SQLite](https://www.sqlite.org/)
+- [Recharts Graph Library](https://recharts.org/)
+- [Zustand](https://zustand.docs.pmnd.rs/)
 - [Docker](https://www.docker.com/)
 - [nginx proxy manager](https://nginxproxymanager.com/) this is a pre-requisite for the project to work with iTunes Podcast / Apple Podcasts. The RSS Feed of the podcast channel is required by Apple Podcasts to be accessible via https.
 

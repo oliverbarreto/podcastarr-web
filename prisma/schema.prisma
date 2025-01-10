@@ -15,7 +15,7 @@ model PodcastChannel {
   title           String
   description     String
   userName        String
-  userEmail       String   @unique
+  userEmail       String
   imageUrl        String?
   explicitContent Boolean  @default(false)
   createdAt       DateTime @default(now())
