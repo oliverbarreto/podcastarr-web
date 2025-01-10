@@ -12,7 +12,6 @@ import {
   getCurrentChannel,
   updateChannel
 } from "@/actions/profile_page_actions"
-import { useProfileStore } from "@/store/profile-store"
 
 // Create a type based on your Prisma schema
 type PodcastChannel = {
@@ -21,6 +20,9 @@ type PodcastChannel = {
   description: string
   userName: string
   userEmail: string
+  ownerName: string
+  ownerEmail: string
+  language: string
   imageUrl: string | null
   explicitContent: boolean
 }
@@ -30,7 +32,6 @@ export default function ProfilePage() {
   const [channelInfo, setChannelInfo] = useState<PodcastChannel | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { updateProfile } = useProfileStore()
 
   useEffect(() => {
     let mounted = true
@@ -77,14 +78,29 @@ export default function ProfilePage() {
 
   return (
     <div className="container max-w-5xl mx-auto py-10">
-      <div>
+      <div className="mb-12">
         <h1 className="text-3xl font-bold flex items-center gap-2">
           <Podcast className="w-8 h-8" />
           Podcast Channel Information
         </h1>
-        <p className="text-muted-foreground mt-2 py-4">
-          Configure your podcast channel settings and information.
+        <p className="text-muted-foreground mt-2 pb-4">
+          You can find here important information to configure your podcast
+          channel. This info will be used and visible by the podcast app. You
+          can leave the default values, or you can change them with your own
+          custom info.
         </p>
+        <p className="text-muted-foreground mt-2 pb-4">
+          Below is also available the feed url string
+          &apos;http://webserver.com/user_feed.xml&apos; that you need to copy
+          and add to your podcast application in order to subscribe.
+        </p>
+        <p className="text-muted-foreground mt-2 pb-4">
+          We have created a public page need for the podcast apps which can be
+          accessed in your browser
+          &apos;http://webserver.com/user/publicprofile&apos;.
+        </p>
+
+        <div className="my-8 border-t border-border" />
       </div>
 
       <form
@@ -96,7 +112,6 @@ export default function ProfilePage() {
 
             if (result.success && result.data) {
               setChannelInfo(result.data)
-              updateProfile(result.data.imageUrl, result.data.userName)
               toast({
                 title: "Success",
                 description: "Channel information updated successfully"
@@ -120,7 +135,6 @@ export default function ProfilePage() {
         }}
         className="space-y-8"
       >
-        {/* Channel Information Section */}
         <div className="space-y-4 py-4">
           <div className="flex items-center gap-2">
             <Info className="w-5 h-5" />
@@ -160,7 +174,6 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Channel Image Section */}
         <div className="space-y-4 py-4">
           <div className="flex items-center gap-2">
             <LinkIcon className="w-5 h-5" />
@@ -192,7 +205,35 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* User Information Section */}
+        <div className="space-y-4 py-4">
+          <div className="flex items-center gap-2">
+            <Info className="w-5 h-5" />
+            <h2 className="text-xl font-semibold">Podcast Information</h2>
+          </div>
+          <div className="grid gap-4 pl-7">
+            <div>
+              <Label htmlFor="language">Language</Label>
+              <select
+                id="language"
+                name="language"
+                value={channelInfo?.language || "English"}
+                onChange={(e) => {
+                  setChannelInfo((prev) => ({
+                    ...prev!,
+                    language: e.target.value
+                  }))
+                }}
+                className="w-full px-3 py-2 rounded-md border bg-background"
+              >
+                <option value="English">English</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div className="space-y-4 py-4">
           <div className="flex items-center gap-2">
             <Mail className="w-5 h-5" />
@@ -216,6 +257,34 @@ export default function ProfilePage() {
                 type="email"
                 defaultValue={channelInfo?.userEmail}
                 placeholder="john@example.com"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4 py-4">
+          <div className="flex items-center gap-2">
+            <User className="w-5 h-5" />
+            <h2 className="text-xl font-semibold">Authoring</h2>
+          </div>
+          <div className="grid gap-4 pl-7">
+            <div>
+              <Label htmlFor="ownerName">Owner Name</Label>
+              <Input
+                id="ownerName"
+                name="ownerName"
+                defaultValue={channelInfo?.ownerName}
+                placeholder="John Smith"
+              />
+            </div>
+            <div>
+              <Label htmlFor="ownerEmail">Owner Email</Label>
+              <Input
+                id="ownerEmail"
+                name="ownerEmail"
+                type="email"
+                defaultValue={channelInfo?.ownerEmail}
+                placeholder="john.smith@example.com"
               />
             </div>
           </div>

@@ -16,6 +16,9 @@ model PodcastChannel {
   description     String
   userName        String
   userEmail       String
+  ownerName       String   @default("")
+  ownerEmail      String   @default("")
+  language        String   @default("English")
   imageUrl        String?
   explicitContent Boolean  @default(false)
   createdAt       DateTime @default(now())

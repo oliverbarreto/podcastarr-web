@@ -1,7 +1,6 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { revalidatePath } from "next/cache"
 
 export async function getCurrentChannel() {
   try {
@@ -14,47 +13,52 @@ export async function getCurrentChannel() {
 
 export async function updateChannel(formData: FormData) {
   try {
-    // Extract and validate form data
-    const title = formData.get("title")
-    const description = formData.get("description")
-    const userName = formData.get("userName")
-    const userEmail = formData.get("userEmail")
-    const imageUrl = formData.get("imageUrl")
-    const explicitContent = formData.get("explicitContent") === "on"
-
-    // Validate required fields
-    if (!title || !description || !userName || !userEmail) {
-      return { success: false, error: "Missing required fields" }
-    }
+    // Log the incoming form data
+    console.log("Language from form:", formData.get("language"))
 
     const data = {
-      title: title.toString(),
-      description: description.toString(),
-      userName: userName.toString(),
-      userEmail: userEmail.toString(),
-      imageUrl: imageUrl ? imageUrl.toString() : null,
-      explicitContent
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      userName: formData.get("userName") as string,
+      userEmail: formData.get("userEmail") as string,
+      ownerName: (formData.get("ownerName") as string) || "",
+      ownerEmail: (formData.get("ownerEmail") as string) || "",
+      language: (formData.get("language") as string) || "English",
+      imageUrl: formData.get("imageUrl") as string,
+      explicitContent: formData.get("explicitContent") === "on"
     }
 
-    // Get existing channel or create new one
-    const existingChannel = await prisma.podcastChannel.findFirst()
+    // Log the data being sent to Prisma
+    console.log("Data being sent to Prisma:", data)
 
-    let channel
-    if (existingChannel) {
-      channel = await prisma.podcastChannel.update({
-        where: { id: existingChannel.id },
-        data
-      })
-    } else {
-      channel = await prisma.podcastChannel.create({
-        data
-      })
-    }
+    const channel = await prisma.podcastChannel.update({
+      where: {
+        id: 1
+      },
+      data
+    })
 
-    revalidatePath("/profile")
+    // Log the response from Prisma
+    console.log("Updated channel:", channel)
+
     return { success: true, data: channel }
   } catch (error) {
-    console.error("Update channel error:", error)
+    console.error("Update error:", error)
     return { success: false, error: "Failed to update channel" }
+  }
+}
+
+export async function getChannel() {
+  try {
+    const channel = await prisma.podcastChannel.findFirst({
+      where: {
+        id: 1
+      }
+      // Add cacheStrategy: 'no-store' if using Next.js fetch
+    })
+    return { success: true, data: channel }
+  } catch (error) {
+    console.error("Get channel error:", error)
+    return { success: false, error: "Failed to get channel" }
   }
 }
