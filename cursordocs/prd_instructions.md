@@ -26,8 +26,7 @@
 - Create a model for the channel named 'PodcastChannel' with the following fields:
   - name
   - description
-  - image
-  - url
+  - imageURL
   - email
   - explicit (boolean)
   - language
@@ -55,7 +54,7 @@
 
 ### Step 3 - Basic Features
 
-#### Layout
+#### Layout (DONE)
 
 Create basic Layout with Navbar and Footer
 
@@ -66,7 +65,7 @@ Create basic Layout with Navbar and Footer
 - the search must be a magnifying glass icon that when hovered over it expands into a search box to enable text input, and when the user clicks outside the search box or presses escape it collapses into the magnifying glass icon
 - The search must be a simple search, and the results must be shown in the same grid of cards with the same style as the cards in the channel page, but filtered
 
-#### Profile Page
+#### Profile Page (DONE)
 
 Profile page to set user info and channel required info for iTunes (/profile)
 
