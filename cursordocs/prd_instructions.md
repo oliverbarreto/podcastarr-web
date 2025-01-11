@@ -137,7 +137,7 @@ Section 2:
 - When the user clicks on a column (representing a month), a grid below the graph will show the episodes for that month
 - the User must be able to clear the filter and clear the list of viedos of the selected month
 
-#### Dark Mode Toggle
+#### Dark Mode Toggle (DONE)
 
 Add Dark Mode Toggle
 

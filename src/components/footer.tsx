@@ -6,6 +6,14 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-center h-16 space-x-4">
           <Link
+            href="https://oliverbarreto.com"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Made with ❤️ by Oliver Barreto
+          </Link>
+          <Link
             href="/privacy"
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
