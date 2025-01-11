@@ -69,9 +69,9 @@ Create basic Layout with Navbar and Footer
 
 #### Profile Page (DONE)
 
-Profile page to set user info and channel required info for iTunes (/profile)
+Profile page to set user info and channel required info for iTunes (/channelinfo)
 
-#### Toast Notifications
+#### Toast Notifications (DONE)
 
 - All pages MUST USE toast for notifications of events (success, error, info, warning) when interacting with the app for:
 
