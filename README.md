@@ -123,6 +123,9 @@ Finally, set up Prisma ORM with the init command of the Prisma CLI:
 
 `npx prisma init --datasource-provider sqlite`
 
+Also install the Prisma Client:
+`npm install @prisma/client`
+
 2. Add schema.prisma file to the project
    The Prisma schema provides an intuitive way to model data. Add the following models to your schema.prisma file:
 
@@ -144,6 +147,12 @@ This command did three things:
 Because the SQLite database file didn't exist before, the command also created it inside the prisma directory with the name dev.db as defined via the environment variable in the .env file.
 
 Congratulations, you now have your database and tables ready. Let's go and learn how you can send some queries to read and write data!
+
+#### Update Prisma Schema & Database with new models
+
+1. Add new models to the schema.prisma file
+2. Run `npx prisma migrate dev --name add_podcast_episode` to create a new migration file and create/modify the database and make it available to the application. This will also create the `PodcastEpisode` table on the DB based on your schema
+3. Run `npx prisma generate` to regenerate the Prisma client
 
 ## Deploy with Docker
 

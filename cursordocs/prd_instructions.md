@@ -24,33 +24,35 @@
 ### Step 2 - Initial Model (Not sure this is going to be modified later)
 
 - Create a model for the channel named 'PodcastChannel' with the following fields:
-  - name
-  - description
-  - imageURL
-  - email
-  - explicit (boolean)
-  - language
-  - copyright
-  - owner
-  - category
-  - explicit
-- Create a model for the podcast episodes named 'PodcastEpisode' with the following fields:
-  - title
-  - description
-  - image
-  - url
-  - audio_file
-  - duration
-  - published_at
-  - tags (an episode can have multiple tags)
-- Create a model for the audio files named 'PodcastAudioFile' with the following fields:
-  - path
-  - filename
-  - size
-  - duration
-  - mime_type
-  - created_at
-  - updated_at
+- Create a first version model for the podcast episodes named 'PodcastEpisode' with the following fields:
+
+model PodcastChannel {
+id Int @id @default(autoincrement())
+title String
+description String
+userName String
+userEmail String
+ownerName String @default("")
+ownerEmail String @default("")
+language String @default("English")
+imageUrl String?
+explicitContent Boolean @default(false)
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+}
+
+model PodcastEpisode {
+id Int @id @default(autoincrement())
+title String
+description String
+imageUrl String?
+audioFileUrl String?
+duration Int?
+publishedAt DateTime @default(now())
+tags String // We'll store as comma-separated string
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+}
 
 ### Step 3 - Basic Features
 
@@ -74,7 +76,7 @@ Profile page to set user info and channel required info for iTunes (/profile)
 - All pages MUST USE toast for notifications of events (success, error, info, warning) when interacting with the app for:
 
 - (DONE) managing channel info (add, update)
-- managing episodes (add, delete, edit)
+- (DONE) managing episodes (add, delete, edit)
 
 #### Channel Page
 
