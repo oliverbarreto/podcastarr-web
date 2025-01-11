@@ -1,4 +1,4 @@
-export default function PrivacyPage() {
+const PrivacyPage = () => {
   return (
     <div className="max-w-3xl mx-auto prose dark:prose-invert">
       <h1>Privacy Policy</h1>
@@ -123,3 +123,5 @@ export default function PrivacyPage() {
     </div>
   )
 }
+
+export default PrivacyPage

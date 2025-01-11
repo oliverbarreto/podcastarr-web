@@ -27,7 +27,7 @@ type PodcastChannel = {
   explicitContent: boolean
 }
 
-export default function ProfilePage() {
+const ProfilePage = () => {
   const { toast } = useToast()
   const [channelInfo, setChannelInfo] = useState<PodcastChannel | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -299,3 +299,5 @@ export default function ProfilePage() {
     </div>
   )
 }
+
+export default ProfilePage

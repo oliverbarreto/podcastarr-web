@@ -1,4 +1,4 @@
-export default function TermsPage() {
+const TermsPage = () => {
   return (
     <div className="max-w-3xl mx-auto prose dark:prose-invert">
       <h1>Terms of Service</h1>
@@ -123,3 +123,5 @@ export default function TermsPage() {
     </div>
   )
 }
+
+export default TermsPage
