@@ -1,31 +1,22 @@
 "use client"
 
 import { useEffect, useState } from "react"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
+
 import { User, Podcast, Info, Mail, LinkIcon } from "lucide-react"
+
 import {
   getCurrentChannel,
   updateChannel
 } from "@/actions/profile_page_actions"
 
-// Create a type based on your Prisma schema
-type PodcastChannel = {
-  id: number
-  title: string
-  description: string
-  userName: string
-  userEmail: string
-  ownerName: string
-  ownerEmail: string
-  language: string
-  imageUrl: string | null
-  explicitContent: boolean
-}
+import { PodcastChannel } from "@/types/podcast_channel"
 
 const ProfilePage = () => {
   const { toast } = useToast()
@@ -61,6 +52,36 @@ const ProfilePage = () => {
       mounted = false
     }
   }, [toast])
+
+  const formAction = async (formData: FormData) => {
+    if (isSubmitting) return
+    setIsSubmitting(true)
+    try {
+      const result = await updateChannel(formData)
+
+      if (result.success && result.data) {
+        setChannelInfo(result.data)
+        toast({
+          title: "Success",
+          description: "Channel information updated successfully"
+        })
+      } else {
+        throw new Error(result.error || "Failed to update channel")
+      }
+    } catch (error) {
+      console.error("Form submission error:", error)
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to update channel information",
+        variant: "destructive"
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -104,38 +125,7 @@ const ProfilePage = () => {
         <div className="my-8 border-t border-border" />
       </div>
 
-      <form
-        action={async (formData) => {
-          if (isSubmitting) return
-          setIsSubmitting(true)
-          try {
-            const result = await updateChannel(formData)
-
-            if (result.success && result.data) {
-              setChannelInfo(result.data)
-              toast({
-                title: "Success",
-                description: "Channel information updated successfully"
-              })
-            } else {
-              throw new Error(result.error || "Failed to update channel")
-            }
-          } catch (error) {
-            console.error("Form submission error:", error)
-            toast({
-              title: "Error",
-              description:
-                error instanceof Error
-                  ? error.message
-                  : "Failed to update channel information",
-              variant: "destructive"
-            })
-          } finally {
-            setIsSubmitting(false)
-          }
-        }}
-        className="space-y-8"
-      >
+      <form action={formAction} className="space-y-8">
         <div className="space-y-4 py-4">
           <div className="flex items-center gap-2">
             <Info className="w-5 h-5" />
