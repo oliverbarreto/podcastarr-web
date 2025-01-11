@@ -1,45 +1,63 @@
-import { buttonVariants } from "@/components/ui/button"
+import {
+  getRecentEpisodes,
+  getRecentlyModifiedEpisodes
+} from "@/actions/home_page_actions"
+import { EpisodeCardCompact } from "@/components/episode-card-compact"
 
-import Image from "next/image"
-import Link from "next/link"
+export default async function HomePage() {
+  const [recentResult, modifiedResult] = await Promise.all([
+    getRecentEpisodes(),
+    getRecentlyModifiedEpisodes()
+  ])
 
-const Home = () => {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center">
-        <Link
-          className={buttonVariants({ variant: "outline" })}
-          href="https://oliverbarreto.com"
-          target="_blank"
-        >
-          Oliver Barreto
-        </Link>
-        <Link
-          className={buttonVariants({ variant: "outline" })}
-          href="/profile"
-        >
-          Profile
-        </Link>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://oliverbarreto.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Made with ❤️ by Oliver Barreto
-        </a>
-      </footer>
-    </div>
+    <main className="container max-w-7xl mx-auto py-10 space-y-12">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-4">
+          Welcome to Your Podcast Manager
+        </h1>
+        <p className="text-xl text-muted-foreground">
+          Manage and organize your podcast episodes with ease
+        </p>
+      </div>
+
+      <section>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Recently Added Episodes</h2>
+        </div>
+        {recentResult.success &&
+        recentResult.data &&
+        recentResult.data.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {recentResult.data.map((episode) => (
+              <EpisodeCardCompact key={episode.id} episode={episode} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted-foreground text-center py-10">
+            No episodes found. Start by adding your first episode!
+          </p>
+        )}
+      </section>
+
+      <section>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Recently Modified Episodes</h2>
+        </div>
+        {modifiedResult.success &&
+        modifiedResult.data &&
+        modifiedResult.data.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {modifiedResult.data.map((episode) => (
+              <EpisodeCardCompact key={episode.id} episode={episode} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted-foreground text-center py-10">
+            No recently modified episodes found.
+          </p>
+        )}
+      </section>
+    </main>
   )
 }
-
-export default Home
