@@ -46,8 +46,10 @@ export async function updateChannel(formData: FormData) {
     // Log the data being sent to Prisma
     console.log("Data being sent to Prisma:", data)
 
-    const channel = await prisma.podcastChannel.create({
-      data
+    const channel = await prisma.podcastChannel.upsert({
+      where: { id: 1 },
+      update: data,
+      create: { ...data, id: 1 }
     })
     // Log the response from Prisma
     console.log("Updated channel:", channel)
