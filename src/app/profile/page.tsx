@@ -29,6 +29,7 @@ type PodcastChannel = {
 
 const ProfilePage = () => {
   const { toast } = useToast()
+
   const [channelInfo, setChannelInfo] = useState<PodcastChannel | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -192,6 +193,7 @@ const ProfilePage = () => {
             <div className="flex justify-center">
               <div className="w-40 h-40 rounded-full overflow-hidden bg-muted flex items-center justify-center">
                 {channelInfo?.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={channelInfo.imageUrl}
                     alt="Channel Logo"

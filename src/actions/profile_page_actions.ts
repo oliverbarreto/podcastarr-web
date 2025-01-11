@@ -11,6 +11,21 @@ export async function getCurrentChannel() {
   }
 }
 
+export async function getChannel() {
+  try {
+    const channel = await prisma.podcastChannel.findFirst({
+      where: {
+        id: 1
+      }
+      // Add cacheStrategy: 'no-store' if using Next.js fetch
+    })
+    return { success: true, data: channel }
+  } catch (error) {
+    console.error("Get channel error:", error)
+    return { success: false, error: "Failed to get channel" }
+  }
+}
+
 export async function updateChannel(formData: FormData) {
   try {
     // Log the incoming form data
@@ -31,13 +46,9 @@ export async function updateChannel(formData: FormData) {
     // Log the data being sent to Prisma
     console.log("Data being sent to Prisma:", data)
 
-    const channel = await prisma.podcastChannel.update({
-      where: {
-        id: 1
-      },
+    const channel = await prisma.podcastChannel.create({
       data
     })
-
     // Log the response from Prisma
     console.log("Updated channel:", channel)
 
@@ -45,20 +56,5 @@ export async function updateChannel(formData: FormData) {
   } catch (error) {
     console.error("Update error:", error)
     return { success: false, error: "Failed to update channel" }
-  }
-}
-
-export async function getChannel() {
-  try {
-    const channel = await prisma.podcastChannel.findFirst({
-      where: {
-        id: 1
-      }
-      // Add cacheStrategy: 'no-store' if using Next.js fetch
-    })
-    return { success: true, data: channel }
-  } catch (error) {
-    console.error("Get channel error:", error)
-    return { success: false, error: "Failed to get channel" }
   }
 }
