@@ -78,7 +78,7 @@ Profile page to set user info and channel required info for iTunes (/profile)
 - (DONE) managing channel info (add, update)
 - (DONE) managing episodes (add, delete, edit)
 
-#### Channel Page
+#### Channel Page (DONE)
 
 Channel page to list all episodes (/channel)
 
@@ -91,7 +91,11 @@ Channel page to list all episodes (/channel)
 - Cards should be modern looking with tags having vivid colors and a link to the podcast details page
 - Cards should scale on hover to create a nice effect
 
-#### Home Page
+#### Add Shadcn theme colors to the project (DONE)
+
+change default theme to use purple colors
+
+#### Home Page (DONE)
 
 Home page to show a list of recently added episodes and recently modified episodes (/)
 
@@ -105,7 +109,7 @@ Home page to show a list of recently added episodes and recently modified episod
 - Cards should be modern looking with tags having vivid colors and a link to the podcast details page
 - Cards should scale on hover to create a nice effect
 
-#### Episode Details Page
+#### Episode Details Page (DONE)
 
 Episode Details page to show details of an episode (/episode/:id)
 
