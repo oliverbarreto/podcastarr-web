@@ -121,7 +121,7 @@ The page must have the following features:
 - the user must be able to edit an episode
 - the user must be able to reproduce an audio episode in the browser
 
-#### Stats Page
+#### Stats Page (DONE)
 
 Stats page to show stats of the channel (/stats)
 

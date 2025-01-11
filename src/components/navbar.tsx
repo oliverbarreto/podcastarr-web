@@ -117,7 +117,8 @@ const Navbar = () => {
               )}
             </div>
             <ThemeToggle />
-            <Link href="/profile" className="hover:opacity-80">
+
+            <Link href="/channelinfo" className="hover:opacity-80">
               <Avatar>
                 <AvatarImage src={profileImage || undefined} alt="Profile" />
                 <AvatarFallback>
