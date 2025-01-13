@@ -141,9 +141,19 @@ Section 2:
 
 Add Dark Mode Toggle
 
+#### Refactor folder structure
+
+- Create folder for (root) inside app folder
+- Create folder for public (public) page inside app folder for the public page necesary for iTunes
+
 #### Public Page
 
 Personal Public page to show the data about the channel: sometimes required to have a public page to show the data about the channel (/public/:name)
+
+#### API
+
+- Create folder for api inside app folder
+  - Create a route for /api/addepisode (POST)
 
 #### Podcast XML Feed for iTunes
 
