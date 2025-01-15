@@ -44,7 +44,8 @@ const Navbar = () => {
 
   const navLinks = [
     { href: "/channel", label: "Channel" },
-    { href: "/stats", label: "Stats" }
+    { href: "/stats", label: "Stats" },
+    { href: "/channel/public", label: "Public Page" }
   ]
 
   // Initialize store with server data
