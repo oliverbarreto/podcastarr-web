@@ -141,19 +141,52 @@ Section 2:
 
 Add Dark Mode Toggle
 
-#### Refactor folder structure
+#### Refactor folder structure (DONE)
 
 - Create folder for (root) inside app folder
 - Create folder for public (public) page inside app folder for the public page necesary for iTunes
 
-#### Public Page
+#### Public Page (TODO)
 
 Personal Public page to show the data about the channel: sometimes required to have a public page to show the data about the channel (/public/:name)
 
-#### API
+#### Connect to Backend API (TODO)
 
-- Create folder for api inside app folder
-  - Create a route for /api/addepisode (POST)
+We need to connect to the backend API to get the data about the channel and the episodes.
+
+CHANNEL:
+
+Create or update channel info with an api call like this:
+
+```
+curl -X 'PUT' \
+  'http://127.0.0.1:8000/channel' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d ' {
+     "name": "Oliver'\''s Podcast Channel",
+     "description": "I Publish Things ⭐️",
+     "website_url": "https://podcastarr.oliverbarreto.com",
+     "explicit": true,
+     "image_url": "https://www.oliverbarreto.com/images/site-logo.png",
+     "language": "en",
+     "category": "Technology",
+     "authors": "Oliver Barreto",
+     "authors_email": "oliver.barreto.online@gmail.com",
+     "owner": "Oliver Barreto",
+     "owner_email": "oliver.barreto.online@gmail.com"
+   }'
+```
+
+Get the channel info with an api call like this:
+
+```
+curl -X 'GET' \
+  'http://127.0.0.1:8000/channel' \
+  -H 'accept: application/json'
+```
+
+if there is no channel on the database it will error out with status_code=404, detail="Channel not found".
 
 #### Podcast XML Feed for iTunes
 
@@ -161,10 +194,12 @@ Podcast XML Feed for iTunes (/public/feed.xml)
 
 ### Step 4 - Donwload audio from Youtube
 
+It seems that there is no way to download audio from Youtube without using a Tyspcript library.
+
 - use Javascript library to download audio from Youtube video
 - use ffmpeg to convert the audio to m4a format if needed
 - publish audio files as static files in nextjs app
-- use nextjs server actions to save the audio files into the DB
+- use nextjs 15 server actions to save the audio files into the DB
 
 ## Step 5 - iTunes Integration
 

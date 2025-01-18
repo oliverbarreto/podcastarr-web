@@ -133,11 +133,11 @@ const ProfilePage = () => {
           </div>
           <div className="grid gap-4 pl-7">
             <div>
-              <Label htmlFor="title">Channel Title</Label>
+              <Label htmlFor="name">Channel Title</Label>
               <Input
-                id="title"
-                name="title"
-                defaultValue={channelInfo?.title}
+                id="name"
+                name="name"
+                defaultValue={channelInfo?.name}
                 placeholder="My Awesome Podcast"
               />
             </div>
@@ -151,14 +151,48 @@ const ProfilePage = () => {
                 rows={4}
               />
             </div>
+            <div>
+              <Label htmlFor="website_url">Website URL</Label>
+              <Input
+                id="website_url"
+                name="website_url"
+                defaultValue={channelInfo?.website_url}
+                placeholder="https://example.com"
+              />
+            </div>
+            <div>
+              <Label htmlFor="category">Category</Label>
+              <select
+                id="category"
+                name="category"
+                value={channelInfo?.category || "Technology"}
+                onChange={(e) => {
+                  setChannelInfo((prev) => ({
+                    ...prev!,
+                    category: e.target.value
+                  }))
+                }}
+                className="w-full px-3 py-2 rounded-md border bg-background"
+              >
+                <option value="Technology">Technology</option>
+                <option value="Business">Business</option>
+                <option value="Education">Education</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Health">Health</option>
+                <option value="News">News</option>
+                <option value="Science">Science</option>
+                <option value="Society">Society</option>
+                <option value="Sports">Sports</option>
+              </select>
+            </div>
             <div className="flex items-center space-x-2">
               <Checkbox
-                id="explicitContent"
-                name="explicitContent"
-                defaultChecked={channelInfo?.explicitContent}
+                id="explicit"
+                name="explicit"
+                defaultChecked={channelInfo?.explicit}
                 value="on"
               />
-              <Label htmlFor="explicitContent">
+              <Label htmlFor="explicit">
                 The channel episodes might contain explicit content
               </Label>
             </div>
@@ -172,20 +206,20 @@ const ProfilePage = () => {
           </div>
           <div className="grid gap-4 pl-7">
             <div className="flex-1">
-              <Label htmlFor="imageUrl">Image URL</Label>
+              <Label htmlFor="image_url">Image URL</Label>
               <Input
-                id="imageUrl"
-                name="imageUrl"
-                defaultValue={channelInfo?.imageUrl || ""}
+                id="image_url"
+                name="image_url"
+                defaultValue={channelInfo?.image_url || ""}
                 placeholder="https://example.com/image.png"
               />
             </div>
             <div className="flex justify-center">
               <div className="w-40 h-40 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-                {channelInfo?.imageUrl ? (
+                {channelInfo?.image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={channelInfo.imageUrl}
+                    src={channelInfo.image_url}
                     alt="Channel Logo"
                     className="w-full h-full object-cover"
                   />
@@ -233,21 +267,21 @@ const ProfilePage = () => {
           </div>
           <div className="grid gap-4 pl-7">
             <div>
-              <Label htmlFor="userName">User Name</Label>
+              <Label htmlFor="user">Authors Name</Label>
               <Input
-                id="userName"
-                name="userName"
-                defaultValue={channelInfo?.userName}
+                id="authors"
+                name="authors"
+                defaultValue={channelInfo?.authors}
                 placeholder="John Doe"
               />
             </div>
             <div>
-              <Label htmlFor="userEmail">User Email</Label>
+              <Label htmlFor="user_email">Authors Email</Label>
               <Input
-                id="userEmail"
-                name="userEmail"
+                id="authors_email"
+                name="authors_email"
                 type="email"
-                defaultValue={channelInfo?.userEmail}
+                defaultValue={channelInfo?.authors_email}
                 placeholder="john@example.com"
               />
             </div>
@@ -261,21 +295,21 @@ const ProfilePage = () => {
           </div>
           <div className="grid gap-4 pl-7">
             <div>
-              <Label htmlFor="ownerName">Owner Name</Label>
+              <Label htmlFor="owner">Owner Name</Label>
               <Input
-                id="ownerName"
-                name="ownerName"
-                defaultValue={channelInfo?.ownerName}
+                id="owner"
+                name="owner"
+                defaultValue={channelInfo?.owner}
                 placeholder="John Smith"
               />
             </div>
             <div>
-              <Label htmlFor="ownerEmail">Owner Email</Label>
+              <Label htmlFor="owner_email">Owner Email</Label>
               <Input
-                id="ownerEmail"
-                name="ownerEmail"
+                id="owner_email"
+                name="owner_email"
                 type="email"
-                defaultValue={channelInfo?.ownerEmail}
+                defaultValue={channelInfo?.owner_email}
                 placeholder="john.smith@example.com"
               />
             </div>

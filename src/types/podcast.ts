@@ -6,7 +6,7 @@ export type PodcastEpisode = {
   audioFileUrl: string | null
   duration: number | null
   publishedAt: Date
-  tags: string[]
+  tags: string
   createdAt: Date
   updatedAt: Date
 }

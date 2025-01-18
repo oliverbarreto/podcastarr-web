@@ -1,12 +1,16 @@
 export type PodcastChannel = {
   id: number
-  title: string
+  name: string
   description: string
-  userName: string
-  userEmail: string
-  ownerName: string
-  ownerEmail: string
+  authors: string
+  authors_email: string
+  owner: string
+  owner_email: string
   language: string
-  imageUrl: string | null
-  explicitContent: boolean
+  image_url: string | null
+  explicit: boolean
+  website_url: string
+  category: string
+  createdAt?: Date
+  updatedAt?: Date
 }

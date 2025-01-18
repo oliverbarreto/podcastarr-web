@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { prisma } from "@/lib/prisma"
+import { episodeApi } from "@/services/api"
 import type { PodcastEpisode } from "@/types/podcast"
 
 export async function getEpisodes(): Promise<{
@@ -10,16 +10,8 @@ export async function getEpisodes(): Promise<{
   error?: string
 }> {
   try {
-    const episodes = await prisma.podcastEpisode.findMany({
-      orderBy: { createdAt: "desc" }
-    })
-
-    const formattedEpisodes = episodes.map((episode) => ({
-      ...episode,
-      tags: episode.tags ? episode.tags.split(",").map((tag) => tag.trim()) : []
-    }))
-
-    return { success: true, data: formattedEpisodes }
+    const episodes = await episodeApi.getEpisodes()
+    return { success: true, data: episodes }
   } catch (error) {
     console.error("Error fetching episodes:", error)
     return { success: false, error: "Failed to fetch episodes" }
@@ -40,28 +32,18 @@ export async function createEpisode(
       return { success: false, error: "Title and description are required" }
     }
 
-    const episode = await prisma.podcastEpisode.create({
-      data: {
-        title,
-        description,
-        imageUrl: imageUrl || null,
-        audioFileUrl: audioFileUrl || null,
-        tags: tags || "",
-        publishedAt: new Date()
-      }
+    const episode = await episodeApi.createEpisode({
+      title,
+      description,
+      imageUrl: imageUrl || null,
+      audioFileUrl: audioFileUrl || null,
+      tags: tags || "",
+      publishedAt: new Date()
     })
 
     revalidatePath("/channel")
 
-    return {
-      success: true,
-      data: {
-        ...episode,
-        tags: episode.tags
-          ? episode.tags.split(",").map((tag) => tag.trim())
-          : []
-      }
-    }
+    return { success: true, data: episode }
   } catch (error) {
     console.error("Failed to create episode:", error)
     return { success: false, error: "Failed to create episode" }
