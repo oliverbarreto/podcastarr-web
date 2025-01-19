@@ -168,3 +168,18 @@ export async function fetchRecentEpisodes() {
     last_accessed: data.last_accessed.map(mapEpisode)
   }
 }
+
+export async function deleteEpisode(videoId: string) {
+  const response = await fetch(`${API_BASE_URL}/api/downloads/${videoId}`, {
+    method: "DELETE",
+    headers: {
+      accept: "application/json"
+    }
+  })
+
+  if (!response.ok && response.status !== 204) {
+    throw new Error(`Failed to delete episode: ${response.statusText}`)
+  }
+
+  return response.status === 204
+}

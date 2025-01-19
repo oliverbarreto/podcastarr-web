@@ -378,6 +378,26 @@ Response:
 }
 ```
 
+#### Episode Card components must use the BACKEND API to delete an episode
+
+The Episode Card components must use the BACKEND API to get the data for the episodes. The backend will have a route to delete an episode by its "video_id". It should take care of also deleting the file from the public folder and the database.
+
+It shold also return a 204 status code if the episode is deleted successfully to be used by the frontend to update the list of episodes.
+
+Request:
+
+```bash
+curl -X 'DELETE' \
+  'http://127.0.0.1:8000/api/downloads/video_id' \
+  -H 'accept: application/json'
+```
+
+Response:
+
+```bash
+204 No Content
+```
+
 ## Discarded Features for now
 
 DO NOT IMPLEMENT THE FOLLOWING FEATURES YET !!!

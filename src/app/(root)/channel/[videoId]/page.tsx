@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { getEpisodeById } from "@/actions/episode_details_actions"
+import { DeleteEpisodeButton } from "@/components/delete-episode-button"
 
 interface PageProps {
   params: Promise<{ videoId: string }> | { videoId: string }
@@ -115,6 +116,12 @@ export default async function EpisodeDetailsPage({ params }: PageProps) {
               <p>Last updated: {format(new Date(episode.updatedAt), "PPpp")}</p>
               <p>Status: {episode.status}</p>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t pt-8">
+          <div className="flex justify-end">
+            <DeleteEpisodeButton videoId={episode.videoId} />
           </div>
         </div>
       </main>
