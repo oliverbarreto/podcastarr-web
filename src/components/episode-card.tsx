@@ -1,6 +1,5 @@
 import Image from "next/image"
 import Link from "next/link"
-
 import { type PodcastEpisode } from "@/types/podcast"
 
 interface EpisodeCardProps {
@@ -19,10 +18,12 @@ const tagColors = [
 ]
 
 export function EpisodeCard({ episode }: EpisodeCardProps) {
+  const tags = episode.keywords?.split(",").map((tag) => tag.trim()) || []
+
   return (
     <div className="border rounded-lg overflow-hidden shadow-sm flex flex-col transform transition-transform duration-300 hover:scale-105">
       <Link
-        href={`/channel/${episode.id}`}
+        href={`/channel/${episode.videoId}`}
         className="relative aspect-video w-full bg-muted"
       >
         {episode.imageUrl ? (
@@ -43,10 +44,10 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
           {episode.title}
         </h2>
         <p className="text-muted-foreground mb-4 flex-grow line-clamp-2">
-          {episode.description}
+          {episode.summary}
         </p>
         <div className="flex flex-wrap justify-center gap-2 mb-6">
-          {episode.tags.map((tag, index) => (
+          {tags.map((tag, index) => (
             <span
               key={index}
               className={`${
@@ -57,16 +58,15 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
             </span>
           ))}
         </div>
-        {episode.audioFileUrl && (
+        {episode.mediaUrl && (
           <audio controls className="w-full h-8 mb-4">
-            <source src={episode.audioFileUrl} type="audio/mpeg" />
+            <source src={episode.mediaUrl} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
         )}
-        <div className="flex justify-center items-end mt-auto">
-          <span className="text-sm text-muted-foreground">
-            Created: {new Date(episode.createdAt).toLocaleString()}
-          </span>
+        <div className="flex justify-between items-end mt-auto text-sm text-muted-foreground">
+          <span>By {episode.author}</span>
+          <span>{new Date(episode.createdAt).toLocaleDateString()}</span>
         </div>
       </div>
     </div>

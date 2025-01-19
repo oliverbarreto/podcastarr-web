@@ -41,10 +41,10 @@ export default function ChannelPage() {
     }
 
     loadEpisodes()
-  }, [toast]) // Added toast to dependencies
+  }, [toast])
 
   return (
-    <main className="container max-w-5xl mx-auto py-10">
+    <main className="container max-w-7xl mx-auto py-10">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">Your Podcast Channel</h1>
         <p className="text-xl text-muted-foreground">
@@ -71,7 +71,7 @@ export default function ChannelPage() {
             episode.
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {episodes.map((episode) => (
               <EpisodeCard key={episode.id} episode={episode} />
             ))}

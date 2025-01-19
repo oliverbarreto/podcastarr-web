@@ -150,11 +150,9 @@ Add Dark Mode Toggle
 
 Personal Public page to show the data about the channel: sometimes required to have a public page to show the data about the channel (/public/:name)
 
-#### Connect to Backend API (TODO)
+### Step 4 - Connect CHANNEL to Backend API (TODO)
 
-We need to connect to the backend API to get the data about the channel and the episodes.
-
-CHANNEL:
+We need to connect the frontend to the backend API to get data about the channel and the episodes.The backend is reseponsible for donwloading audio from Youtube and convert it to m4a format. The backend API is made with Python FastAPI
 
 Create or update channel info with an api call like this:
 
@@ -188,22 +186,153 @@ curl -X 'GET' \
 
 if there is no channel on the database it will error out with status_code=404, detail="Channel not found".
 
-#### Podcast XML Feed for iTunes
+### Step 5 - Connect EPISODES to Backend API (TODO)
 
-Podcast XML Feed for iTunes (/public/feed.xml)
+To access information about the episodes we need to use the API endpoints:
 
-### Step 4 - Donwload audio from Youtube
+#### Create an episode
 
-It seems that there is no way to download audio from Youtube without using a Tyspcript library.
+- The Espisodes are created throught the API "/api/download" endpoint with is a POST request that takes the youtube video url as the only parameter and are saved in the DB with the audio file url.
 
-- use Javascript library to download audio from Youtube video
-- use ffmpeg to convert the audio to m4a format if needed
-- publish audio files as static files in nextjs app
-- use nextjs 15 server actions to save the audio files into the DB
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8000/api/download?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DlUbobOf9uqM' \
+  -H 'accept: application/json' \
+  -d ''
+```
 
-## Step 5 - iTunes Integration
+Response:
 
-- Use Podcast Generator Library to create/update/delete the XML file for iTunes
+```json
+{
+  "id": "b53599b5-92da-44bd-bcaf-4f91e962f8ec",
+  "url": "https://www.youtube.com/watch?v=lUbobOf9uqM",
+  "created_at": "2025-01-19T13:32:54.573832",
+  "updated_at": "2025-01-19T13:32:54.573832",
+  "status": "pending",
+  "tags": null,
+  "count": 0,
+  "last_accessed_at": null,
+  "video_id": "lUbobOf9uqM",
+  "title": "Así fue el regreso de Jaime Fernández, 300 días después de su lesión",
+  "subtitle": "INSIDE CBC | Sound 🔛\n\nSube el volumen y emociónate con Jaime Fernández...",
+  "summary": "INSIDE CBC | Sound 🔛\n\nSube el volumen y emociónate con Jaime Fernández",
+  "position": 0,
+  "image_url": "https://i.ytimg.com/vi/lUbobOf9uqM/maxresdefault.jpg",
+  "published_at": "2025-01-19T00:00:00",
+  "explicit": false,
+  "media_url": null,
+  "media_size": null,
+  "author": "La Laguna Tenerife",
+  "keywords": "Baloncesto, CB Canarias, La Laguna Tenerife, Liga Endesa, ACB, Jaime Fernández",
+  "media_duration": 139,
+  "media_length": null
+}
+```
+
+#### Get all episodes
+
+- The episodes are available with the route GET "/api/downloads":
+
+```bash
+curl -X 'GET' \
+  'http://127.0.0.1:8000/api/downloads?limit=100&offset=0' \
+  -H 'accept: application/json'
+```
+
+Response:
+
+```json
+[
+  {
+    "id": "b53599b5-92da-44bd-bcaf-4f91e962f8ec",
+    "url": "https://www.youtube.com/watch?v=lUbobOf9uqM",
+    "created_at": "2025-01-19T13:32:54.573832",
+    "updated_at": "2025-01-19T13:32:57.509783",
+    "status": "downloaded",
+    "tags": null,
+    "count": 0,
+    "last_accessed_at": null,
+    "video_id": "lUbobOf9uqM",
+    "title": "Así fue el regreso de Jaime Fernández, 300 días después de su lesión",
+    "subtitle": "INSIDE CBC | Sound 🔛\n\nSube el volumen y emociónate con Jaime Fernández...",
+    "summary": "INSIDE CBC | Sound 🔛\n\nSube el volumen y emociónate con Jaime Fernández",
+    "position": 0,
+    "image_url": "https://i.ytimg.com/vi/lUbobOf9uqM/maxresdefault.jpg",
+    "published_at": "2025-01-19T00:00:00",
+    "explicit": false,
+    "media_url": "./downloads/lUbobOf9uqM.m4a",
+    "media_size": 2249761,
+    "author": "La Laguna Tenerife",
+    "keywords": "Baloncesto, CB Canarias, La Laguna Tenerife, Liga Endesa, ACB, Jaime Fernández",
+    "media_duration": 139,
+    "media_length": 2249761
+  },
+  {
+    "id": "4e437cf9-26c6-42f5-82f6-22bb6c58ae14",
+    "url": "https://www.youtube.com/watch?v=gCiY-een7dY",
+    "created_at": "2025-01-19T00:52:40.869591",
+    "updated_at": "2025-01-19T00:52:48.143272",
+    "status": "downloaded",
+    "tags": null,
+    "count": 0,
+    "last_accessed_at": null,
+    "video_id": "gCiY-een7dY",
+    "title": "How To Reset AirPods So They Can't Be Tracked",
+    "subtitle": "Let's reset your AirPods or AirPods Pro if you want to make sure they can't be tracked by the previo...",
+    "summary": "Let's reset your AirPods or AirPods Pro if you want to make sure they can't be tracked by the previous owner.\n\nIf this video helped you, please consider subscribing to my channel, it really helps me out. Thanks guys :)\n\nIf you have any questions about what you saw or unresolved issues, leave them in the comments below. Alternatively, you can send me an email by heading to my channel page, tapping on About, and tapping on View email address. I look forward to hearing from you. Have a great day!",
+    "position": 0,
+    "image_url": "https://i.ytimg.com/vi/gCiY-een7dY/maxresdefault.jpg",
+    "published_at": "2023-06-05T00:00:00",
+    "explicit": false,
+    "media_url": "./downloads/gCiY-een7dY.m4a",
+    "media_size": 2080497,
+    "author": "Trevor Nace",
+    "keywords": "apps, iPhone, android, ios",
+    "media_duration": 129,
+    "media_length": 2080497
+  }
+]
+```
+
+#### Get a specific episode
+
+- To get the information of a specific episode we need to use the route GET "/api/downloads/{video_id}"
+
+```bash
+curl -X 'GET' \
+  'http://127.0.0.1:8000/api/downloads/lUbobOf9uqM' \
+  -H 'accept: application/json'
+```
+
+Response:
+
+```json
+{
+  "id": "b53599b5-92da-44bd-bcaf-4f91e962f8ec",
+  "url": "https://www.youtube.com/watch?v=lUbobOf9uqM",
+  "created_at": "2025-01-19T13:32:54.573832",
+  "updated_at": "2025-01-19T13:47:55.991155",
+  "status": "downloaded",
+  "tags": null,
+  "count": 1,
+  "last_accessed_at": "2025-01-19T13:47:55.991150",
+  "video_id": "lUbobOf9uqM",
+  "title": "Así fue el regreso de Jaime Fernández, 300 días después de su lesión",
+  "subtitle": "INSIDE CBC | Sound 🔛\n\nSube el volumen y emociónate con Jaime Fernández...",
+  "summary": "INSIDE CBC | Sound 🔛\n\nSube el volumen y emociónate con Jaime Fernández",
+  "position": 0,
+  "image_url": "https://i.ytimg.com/vi/lUbobOf9uqM/maxresdefault.jpg",
+  "published_at": "2025-01-19T00:00:00",
+  "explicit": false,
+  "media_url": "./downloads/lUbobOf9uqM.m4a",
+  "media_size": 2249761,
+  "author": "La Laguna Tenerife",
+  "keywords": "Baloncesto, CB Canarias, La Laguna Tenerife, Liga Endesa, ACB, Jaime Fernández",
+  "media_duration": 139,
+  "media_length": 2249761
+}
+```
 
 ## Discarded Features for now
 

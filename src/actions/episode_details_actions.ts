@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { episodeApi } from "@/services/api"
 import type { PodcastEpisode } from "@/types/podcast"
+import { fetchEpisodeById } from "@/lib/api/episodes"
 
 export async function getEpisode(
   id: number
@@ -59,5 +60,21 @@ export async function deleteEpisode(
   } catch (error) {
     console.error("Failed to delete episode:", error)
     return { success: false, error: "Failed to delete episode" }
+  }
+}
+
+export async function getEpisodeById(id: string) {
+  try {
+    const episode = await fetchEpisodeById(id)
+    return {
+      success: true,
+      data: episode
+    }
+  } catch (error) {
+    console.error("Error fetching episode:", error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to fetch episode"
+    }
   }
 }

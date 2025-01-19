@@ -1,12 +1,17 @@
-export type PodcastEpisode = {
-  id: number
+export interface PodcastEpisode {
+  id: string
+  videoId: string
   title: string
-  description: string
-  imageUrl: string | null
-  audioFileUrl: string | null
-  duration: number | null
-  publishedAt: Date
-  tags: string
-  createdAt: Date
-  updatedAt: Date
+  subtitle: string
+  summary: string
+  imageUrl: string
+  mediaUrl: string | null
+  mediaDuration: number
+  publishedAt: string
+  status: "pending" | "downloaded"
+  author: string
+  keywords: string
+  createdAt: string
+  updatedAt: string
+  tags: string | null
 }
