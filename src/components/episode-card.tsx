@@ -1,6 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
 import { type PodcastEpisode } from "@/types/podcast"
+import { Youtube } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 interface EpisodeCardProps {
   episode: PodcastEpisode
@@ -19,6 +21,7 @@ const tagColors = [
 
 export function EpisodeCard({ episode }: EpisodeCardProps) {
   const tags = episode.keywords?.split(",").map((tag) => tag.trim()) || []
+  const youtubeUrl = `https://www.youtube.com/watch?v=${episode.videoId}`
 
   return (
     <div className="border rounded-lg overflow-hidden shadow-sm flex flex-col transform transition-transform duration-300 hover:scale-105">
@@ -59,7 +62,7 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
           ))}
         </div>
         {episode.mediaUrl && (
-          <div className="space-y-2">
+          <div className="space-y-2 mb-4">
             <h2 className="text-xl font-semibold">Listen</h2>
             <audio controls className="w-full">
               <source src={episode.mediaUrl} type="audio/mpeg" />
@@ -67,9 +70,23 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
             </audio>
           </div>
         )}
-        <div className="flex justify-between items-end mt-auto text-sm text-muted-foreground">
-          <span>By {episode.author}</span>
-          <span>{new Date(episode.createdAt).toLocaleDateString()}</span>
+        <div className="flex flex-col gap-4 mt-auto pt-4 border-t">
+          <div className="text-sm text-muted-foreground">
+            <span>By {episode.author}</span>
+            <span className="mx-2">•</span>
+            <span>{new Date(episode.createdAt).toLocaleDateString()}</span>
+          </div>
+          <a
+            href={youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full"
+          >
+            <Button variant="ghost" size="sm" className="w-full">
+              <Youtube className="h-4 w-4 mr-2" />
+              Watch on YouTube
+            </Button>
+          </a>
         </div>
       </div>
     </div>

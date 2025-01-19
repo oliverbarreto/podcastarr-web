@@ -1,5 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
+import { Youtube } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import type { PodcastEpisode } from "@/types/podcast"
 
 const tagColors = [
@@ -19,9 +21,10 @@ interface EpisodeCardCompactProps {
 
 export function EpisodeCardCompact({ episode }: EpisodeCardCompactProps) {
   const tags = episode.tags || []
+  const youtubeUrl = `https://www.youtube.com/watch?v=${episode.videoId}`
 
   return (
-    <Link href={`/channel/${episode.videoId}`} className="group block w-full">
+    <div className="group block w-full">
       <div className="border rounded-lg overflow-hidden shadow-sm flex flex-col transform transition-transform duration-300 hover:scale-105 bg-card">
         <div className="relative aspect-video w-full bg-muted">
           {episode.imageUrl ? (
@@ -38,13 +41,15 @@ export function EpisodeCardCompact({ episode }: EpisodeCardCompactProps) {
           )}
         </div>
         <div className="p-3 flex-grow flex flex-col">
-          <h3 className="font-semibold line-clamp-1 group-hover:text-primary transition-colors">
-            {episode.title}
-          </h3>
-          <p className="text-sm text-muted-foreground line-clamp-2 mt-1 mb-2">
-            {episode.description}
-          </p>
-          <div className="flex flex-wrap gap-1 mt-auto">
+          <Link href={`/channel/${episode.videoId}`}>
+            <h3 className="font-semibold line-clamp-1 group-hover:text-primary transition-colors">
+              {episode.title}
+            </h3>
+            <p className="text-sm text-muted-foreground line-clamp-2 mt-1 mb-2">
+              {episode.description}
+            </p>
+          </Link>
+          <div className="flex flex-wrap gap-1 mb-4">
             {tags.slice(0, 3).map((tag, index) => (
               <span
                 key={tag}
@@ -61,14 +66,27 @@ export function EpisodeCardCompact({ episode }: EpisodeCardCompactProps) {
               </span>
             )}
           </div>
-          {episode.mediaUrl && (
+          {/* {episode.mediaUrl && (
             <audio controls className="w-full h-8 mb-4">
               <source src={episode.mediaUrl} type="audio/mpeg" />
               Your browser does not support the audio element.
             </audio>
-          )}
+          )} */}
+          <div className="mt-auto pt-3">
+            <a
+              href={youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full"
+            >
+              <Button variant="ghost" size="sm" className="w-full">
+                <Youtube className="h-4 w-4 mr-2" />
+                Watch on YouTube
+              </Button>
+            </a>
+          </div>
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
