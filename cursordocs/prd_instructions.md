@@ -334,6 +334,16 @@ Response:
 }
 ```
 
+#### PLAYBACK a specific episode
+
+- To play a specific episode we need to use the route GET "/api/audio/{video_id}". This will provide the audio file to play in the browser so it can be used with the multimedia element.
+
+```bash
+curl -X 'GET' \
+  'http://127.0.0.1:8000/audio/lUbobOf9uqM' \
+  -H 'accept: application/json'
+```
+
 ## Discarded Features for now
 
 DO NOT IMPLEMENT THE FOLLOWING FEATURES YET !!!

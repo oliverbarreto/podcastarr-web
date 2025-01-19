@@ -59,6 +59,12 @@ export function EpisodeCardCompact({ episode }: EpisodeCardCompactProps) {
               </span>
             )}
           </div>
+          {episode.mediaUrl && (
+            <audio controls className="w-full h-8 mb-4">
+              <source src={episode.mediaUrl} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          )}
         </div>
       </div>
     </Link>

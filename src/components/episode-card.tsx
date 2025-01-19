@@ -59,10 +59,13 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
           ))}
         </div>
         {episode.mediaUrl && (
-          <audio controls className="w-full h-8 mb-4">
-            <source src={episode.mediaUrl} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold">Listen</h2>
+            <audio controls className="w-full">
+              <source src={episode.mediaUrl} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
         )}
         <div className="flex justify-between items-end mt-auto text-sm text-muted-foreground">
           <span>By {episode.author}</span>

@@ -1,11 +1,11 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"
 
-function getFullMediaUrl(mediaUrl: string | null) {
+function getFullMediaUrl(mediaUrl: string | null, videoId: string) {
   if (!mediaUrl) return null
   if (mediaUrl.startsWith("http")) return mediaUrl
 
-  // The API returns the full path in media_url, so we just need to combine it with the base URL
-  return `${API_BASE_URL}/api/media/${mediaUrl}`
+  // Use the /audio/{video_id} endpoint for audio files (without /api prefix)
+  return `${API_BASE_URL}/audio/${videoId}`
 }
 
 export async function fetchEpisodes(limit = 100, offset = 0) {
@@ -47,7 +47,7 @@ export async function fetchEpisodes(limit = 100, offset = 0) {
       subtitle: episode.subtitle,
       summary: episode.summary,
       imageUrl: episode.image_url,
-      mediaUrl: getFullMediaUrl(episode.media_url),
+      mediaUrl: getFullMediaUrl(episode.media_url, episode.video_id),
       mediaDuration: episode.media_duration,
       publishedAt: episode.published_at,
       status: episode.status,
@@ -85,7 +85,7 @@ export async function createEpisode(youtubeUrl: string) {
     subtitle: data.subtitle,
     summary: data.summary,
     imageUrl: data.image_url,
-    mediaUrl: getFullMediaUrl(data.media_url),
+    mediaUrl: getFullMediaUrl(data.media_url, data.video_id),
     mediaDuration: data.media_duration,
     publishedAt: data.published_at,
     status: data.status,
@@ -118,7 +118,7 @@ export async function fetchEpisodeById(videoId: string) {
     subtitle: data.subtitle,
     summary: data.summary,
     imageUrl: data.image_url,
-    mediaUrl: getFullMediaUrl(data.media_url),
+    mediaUrl: getFullMediaUrl(data.media_url, data.video_id),
     mediaDuration: data.media_duration,
     publishedAt: data.published_at,
     status: data.status,
