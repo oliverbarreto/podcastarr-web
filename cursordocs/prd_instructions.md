@@ -344,6 +344,40 @@ curl -X 'GET' \
   -H 'accept: application/json'
 ```
 
+#### Home Page must use the BACKEND API
+
+We nned to disconnect the Home Page from the dummy data used before with the local databse. Now, we will use the backend API to retreive the data.
+
+The Home Page will have a section with:
+
+- last 5 episodes added
+- last 5 episodes updated
+- last 5 episodes accessed
+
+Request:
+
+```bash
+curl -X 'GET' \
+  'http://127.0.0.1:8000/api/downloads/recents' \
+  -H 'accept: application/json'
+```
+
+Response:
+
+```json
+{
+  "last_added": [
+    /* up to 5 most recently added episodes */
+  ],
+  "last_updated": [
+    /* up to 5 most recently updated episodes */
+  ],
+  "last_accessed": [
+    /* up to 5 most recently accessed episodes */
+  ]
+}
+```
+
 ## Discarded Features for now
 
 DO NOT IMPLEMENT THE FOLLOWING FEATURES YET !!!
