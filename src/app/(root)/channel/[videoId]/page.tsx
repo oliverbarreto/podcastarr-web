@@ -7,19 +7,20 @@ import { ArrowLeft } from "lucide-react"
 import { getEpisodeById } from "@/actions/episode_details_actions"
 
 interface PageProps {
-  params: {
-    videoId: string
-  }
+  params: Promise<{ videoId: string }> | { videoId: string }
 }
 
 export default async function EpisodeDetailsPage({ params }: PageProps) {
+  // Wait for params to be resolved
+  const resolvedParams = await params
+
   // Validate params before using
-  if (!params?.videoId) {
+  if (!resolvedParams?.videoId) {
     notFound()
   }
 
   try {
-    const result = await getEpisodeById(params.videoId)
+    const result = await getEpisodeById(resolvedParams.videoId)
 
     if (!result.success || !result.data) {
       notFound()
