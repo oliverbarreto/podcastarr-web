@@ -1,14 +1,8 @@
-import {
-  getRecentEpisodes,
-  getRecentlyModifiedEpisodes
-} from "@/actions/home_page_actions"
+import { getRecentEpisodes } from "@/actions/home_page_actions"
 import { EpisodeCardCompact } from "@/components/episode-card-compact"
 
 export default async function HomePage() {
-  const [recentResult, modifiedResult] = await Promise.all([
-    getRecentEpisodes(),
-    getRecentlyModifiedEpisodes()
-  ])
+  const result = await getRecentEpisodes()
 
   return (
     <main className="container max-w-7xl mx-auto py-10 space-y-12">
@@ -23,13 +17,13 @@ export default async function HomePage() {
 
       <section>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Recently Added Episodes</h2>
+          <h2 className="text-2xl font-bold">
+            Top 5 Most Recently Added Episodes
+          </h2>
         </div>
-        {recentResult.success &&
-        recentResult.data &&
-        recentResult.data.length > 0 ? (
+        {result.success && result.data?.lastAdded.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {recentResult.data.map((episode) => (
+            {result.data.lastAdded.map((episode) => (
               <EpisodeCardCompact key={episode.id} episode={episode} />
             ))}
           </div>
@@ -42,19 +36,38 @@ export default async function HomePage() {
 
       <section>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Recently Modified Episodes</h2>
+          <h2 className="text-2xl font-bold">
+            Top 5 Most Recently Updated Episodes
+          </h2>
         </div>
-        {modifiedResult.success &&
-        modifiedResult.data &&
-        modifiedResult.data.length > 0 ? (
+        {result.success && result.data?.lastUpdated.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {modifiedResult.data.map((episode) => (
+            {result.data.lastUpdated.map((episode) => (
               <EpisodeCardCompact key={episode.id} episode={episode} />
             ))}
           </div>
         ) : (
           <p className="text-muted-foreground text-center py-10">
-            No recently modified episodes found.
+            No recently updated episodes found.
+          </p>
+        )}
+      </section>
+
+      <section>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">
+            Top 5 Most Recently Accessed Episodes
+          </h2>
+        </div>
+        {result.success && result.data?.lastAccessed.length ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {result.data.lastAccessed.map((episode) => (
+              <EpisodeCardCompact key={episode.id} episode={episode} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted-foreground text-center py-10">
+            No recently accessed episodes found.
           </p>
         )}
       </section>

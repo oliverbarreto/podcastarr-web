@@ -13,5 +13,5 @@ export interface PodcastEpisode {
   keywords: string
   createdAt: string
   updatedAt: string
-  tags: string | null
+  tags: string[]
 }

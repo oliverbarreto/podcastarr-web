@@ -1,27 +1,26 @@
 "use server"
 
-import { prisma } from "@/lib/prisma"
+import { fetchRecentEpisodes } from "@/lib/api/episodes"
 import type { PodcastEpisode } from "@/types/podcast"
 
 export async function getRecentEpisodes(): Promise<{
   success: boolean
-  data?: PodcastEpisode[]
+  data?: {
+    lastAdded: PodcastEpisode[]
+    lastUpdated: PodcastEpisode[]
+    lastAccessed: PodcastEpisode[]
+  }
   error?: string
 }> {
   try {
-    const episodes = await prisma.podcastEpisode.findMany({
-      take: 5,
-      orderBy: { createdAt: "desc" }
-    })
-
+    const data = await fetchRecentEpisodes()
     return {
       success: true,
-      data: episodes.map((episode) => ({
-        ...episode,
-        tags: episode.tags
-          ? episode.tags.split(",").map((tag) => tag.trim())
-          : []
-      }))
+      data: {
+        lastAdded: data.last_added,
+        lastUpdated: data.last_updated,
+        lastAccessed: data.last_accessed
+      }
     }
   } catch (error) {
     console.error("Failed to fetch recent episodes:", error)

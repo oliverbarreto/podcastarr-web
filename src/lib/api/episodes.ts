@@ -128,3 +128,43 @@ export async function fetchEpisodeById(videoId: string) {
     updatedAt: data.updated_at
   }
 }
+
+export async function fetchRecentEpisodes() {
+  const response = await fetch(`${API_BASE_URL}/api/downloads/recents`, {
+    headers: {
+      accept: "application/json"
+    }
+  })
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`)
+  }
+
+  const data = await response.json()
+
+  const mapEpisode = (episode: any) => ({
+    id: episode.id,
+    videoId: episode.video_id,
+    title: episode.title,
+    subtitle: episode.subtitle,
+    summary: episode.summary,
+    imageUrl: episode.image_url,
+    mediaUrl: getFullMediaUrl(episode.media_url, episode.video_id),
+    mediaDuration: episode.media_duration,
+    publishedAt: episode.published_at,
+    status: episode.status,
+    author: episode.author,
+    keywords: episode.keywords,
+    createdAt: episode.created_at,
+    updatedAt: episode.updated_at,
+    tags: episode.keywords
+      ? episode.keywords.split(",").map((tag: string) => tag.trim())
+      : []
+  })
+
+  return {
+    last_added: data.last_added.map(mapEpisode),
+    last_updated: data.last_updated.map(mapEpisode),
+    last_accessed: data.last_accessed.map(mapEpisode)
+  }
+}

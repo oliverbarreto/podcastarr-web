@@ -18,8 +18,10 @@ interface EpisodeCardCompactProps {
 }
 
 export function EpisodeCardCompact({ episode }: EpisodeCardCompactProps) {
+  const tags = episode.tags || []
+
   return (
-    <Link href={`/channel/${episode.id}`} className="group block w-full">
+    <Link href={`/channel/${episode.videoId}`} className="group block w-full">
       <div className="border rounded-lg overflow-hidden shadow-sm flex flex-col transform transition-transform duration-300 hover:scale-105 bg-card">
         <div className="relative aspect-video w-full bg-muted">
           {episode.imageUrl ? (
@@ -43,7 +45,7 @@ export function EpisodeCardCompact({ episode }: EpisodeCardCompactProps) {
             {episode.description}
           </p>
           <div className="flex flex-wrap gap-1 mt-auto">
-            {episode.tags.slice(0, 3).map((tag, index) => (
+            {tags.slice(0, 3).map((tag, index) => (
               <span
                 key={tag}
                 className={`${
@@ -53,9 +55,9 @@ export function EpisodeCardCompact({ episode }: EpisodeCardCompactProps) {
                 #{tag}
               </span>
             ))}
-            {episode.tags.length > 3 && (
+            {tags.length > 3 && (
               <span className="text-xs text-muted-foreground">
-                +{episode.tags.length - 3} more
+                +{tags.length - 3} more
               </span>
             )}
           </div>
