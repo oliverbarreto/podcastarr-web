@@ -364,7 +364,7 @@ curl -X 'GET' \
 
 Response:
 
-```json
+````json
 {
   "last_added": [
     /* up to 5 most recently added episodes */
@@ -376,7 +376,7 @@ Response:
     /* up to 5 most recently accessed episodes */
   ]
 }
-```
+``
 
 #### Episode Card components must use the BACKEND API to delete an episode
 
@@ -390,13 +390,23 @@ Request:
 curl -X 'DELETE' \
   'http://127.0.0.1:8000/api/downloads/video_id' \
   -H 'accept: application/json'
-```
+````
 
 Response:
 
 ```bash
 204 No Content
 ```
+
+### Step 6 - SEARCH EPISODES in the channel page
+
+In the "/channel" page, the user must be able to search for episodes by title, description or author. There is a search input in the navbar that will be used for this.
+
+The search must be a simple search performed locally in the frontend, and the results must be shown in the same grid of cards with the same style as the cards in the channel page, but filtered.
+
+### Step 7 - SEARCH EPISODES in the home page
+
+In the "/home" page, the user must be able to search for episodes by title, description or author. There is a search input in the navbar that will be used for this. The search must be a simple search performed locally in the frontend, and the results must be shown in the same grid of cards with the same style as the cards in the home page, but filtered.
 
 ## Discarded Features for now
 
