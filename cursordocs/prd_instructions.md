@@ -360,7 +360,7 @@ curl -X 'GET' \
 
 Response:
 
-````json
+```json
 {
   "last_added": [
     /* up to 5 most recently added episodes */
@@ -372,7 +372,7 @@ Response:
     /* up to 5 most recently accessed episodes */
   ]
 }
-``
+```
 
 #### Episode Card components must use the BACKEND API to delete an episode
 
@@ -386,7 +386,7 @@ Request:
 curl -X 'DELETE' \
   'http://127.0.0.1:8000/api/downloads/video_id' \
   -H 'accept: application/json'
-````
+```
 
 Response:
 
@@ -427,6 +427,30 @@ The public page must have:
   - the explicit content of the podcast channel,
   - the language of the podcast channel,
   - the date created and last edited,
+
+### Step 9 - Stats Totals
+
+The api provides a "/stats/totals" route that returns:
+
+- total_episodes: The total number of episodes in the database
+- last_added_date: The date when the last episode was added (null if no episodes)
+
+You can test the endpoint with:
+
+```bash
+curl -X 'GET' \
+  'http://127.0.0.1:8000/api/stats/totals' \
+  -H 'accept: application/json'
+```
+
+An example response is:
+
+```json
+{
+  "total_episodes": 42,
+  "last_added_date": "2024-03-20T15:30:45.123456"
+}
+```
 
 ## Discarded Features for now
 
