@@ -19,6 +19,20 @@ export const SearchInput = () => {
     setSearchTerm(debouncedSearch)
   }, [debouncedSearch, setSearchTerm])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Check for Ctrl+F or Cmd+F
+      if ((e.ctrlKey || e.metaKey) && e.key === "f") {
+        e.preventDefault() // Prevent the browser's default find behavior
+        setIsExpanded(true)
+        inputRef.current?.focus()
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
   const handleFocus = () => {
     setIsExpanded(true)
   }
@@ -58,7 +72,7 @@ export const SearchInput = () => {
         )}
       >
         <Search
-          className="h-4 w-4 mx-3 flex-shrink-0 text-muted-foreground"
+          className="h-4 w-4 mx-3 flex-shrink-0 text-muted-foreground cursor-pointer"
           onClick={() => !isExpanded && inputRef.current?.focus()}
         />
         <input
@@ -69,13 +83,15 @@ export const SearchInput = () => {
           onFocus={handleFocus}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          placeholder="Search episodes..."
+          placeholder="Search episodes... (Ctrl+F)"
           className="flex-1 h-10 bg-transparent outline-none text-sm"
+          aria-label="Search episodes"
         />
         {inputValue && (
           <button
             onClick={handleClear}
             className="p-2 hover:text-primary transition-colors"
+            aria-label="Clear search"
           >
             <X className="h-4 w-4" />
           </button>
