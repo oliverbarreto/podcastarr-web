@@ -139,16 +139,12 @@ Section 2:
 
 #### Dark Mode Toggle (DONE)
 
-Add Dark Mode Toggle
+Add Dark Mode Toggle on navbar
 
 #### Refactor folder structure (DONE)
 
 - Create folder for (root) inside app folder
 - Create folder for public (public) page inside app folder for the public page necesary for iTunes
-
-#### Public Page (TODO)
-
-Personal Public page to show the data about the channel: sometimes required to have a public page to show the data about the channel (/public/:name)
 
 ### Step 4 - Connect CHANNEL to Backend API (TODO)
 
@@ -407,6 +403,30 @@ The search must be a simple search performed locally in the frontend, and the re
 ### Step 7 - SEARCH EPISODES in the home page
 
 In the "/home" page, the user must be able to search for episodes by title, description or author. There is a search input in the navbar that will be used for this. The search must be a simple search performed locally in the frontend, and the results must be shown in the same grid of cards with the same style as the cards in the home page, but filtered.
+
+### Step 8 - Public Page
+
+The app mus provide a link in the navbar to the Personal Public page to show the data about the channel and public information in a route "channel/public" eg: http://localhost:3000/channel/public.
+
+The page is located in "/app/public_channel/channel/public" path.
+
+The page is a static page, that is generated with data coming from:
+
+- the channel information
+- and from the episodes (do not include this information yet)
+
+The public page must have:
+
+- Channel info:
+
+  - a centered image of the channel image on top,
+  - the title of the podcast channel,
+  - the description of the podcast channel,
+  - the url of the website ulr,
+  - the category of the podcast channel,
+  - the explicit content of the podcast channel,
+  - the language of the podcast channel,
+  - the date created and last edited,
 
 ## Discarded Features for now
 
