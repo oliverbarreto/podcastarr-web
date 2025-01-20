@@ -7,6 +7,17 @@ import { ArrowLeft } from "lucide-react"
 import { getEpisodeById } from "@/actions/episode_details_actions"
 import { DeleteEpisodeButton } from "@/components/delete-episode-button"
 
+const tagColors = [
+  "bg-pink-500",
+  "bg-purple-500",
+  "bg-indigo-500",
+  "bg-blue-500",
+  "bg-green-500",
+  "bg-yellow-500",
+  "bg-red-500",
+  "bg-orange-500"
+]
+
 interface PageProps {
   params: Promise<{ videoId: string }> | { videoId: string }
 }
@@ -73,7 +84,9 @@ export default async function EpisodeDetailsPage({ params }: PageProps) {
               {tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm"
+                  className={`${
+                    tagColors[index % tagColors.length]
+                  } text-white text-sm px-3 py-1.5 rounded-full font-medium`}
                 >
                   #{tag}
                 </span>
