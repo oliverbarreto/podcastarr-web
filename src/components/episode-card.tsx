@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { type PodcastEpisode } from "@/types/podcast"
@@ -46,7 +48,19 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
         <h2 className="text-xl font-semibold mb-2 line-clamp-1">
           {episode.title}
         </h2>
-        <p className="text-muted-foreground mb-4 flex-grow line-clamp-2">
+        <div className="text-sm text-muted-foreground mb-2 flex flex-col gap-1">
+          <span>By {episode.author}</span>
+          <span>
+            Published{" "}
+            {new Date(episode.createdAt).toLocaleDateString("en-US", {
+              day: "numeric",
+              month: "long",
+              year: "numeric"
+            })}
+          </span>
+        </div>
+
+        <p className="text-muted-foreground mt-4 mb-4 flex-grow line-clamp-2">
           {episode.summary}
         </p>
         <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -70,23 +84,21 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
             </audio>
           </div>
         )}
-        <div className="flex flex-col gap-4 mt-auto pt-4 border-t">
-          <div className="text-sm text-muted-foreground">
-            <span>By {episode.author}</span>
-            <span className="mx-2">•</span>
-            <span>{new Date(episode.createdAt).toLocaleDateString()}</span>
-          </div>
-          <a
-            href={youtubeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div className="mt-4">
+          <Button
+            variant="ghost"
+            size="sm"
             className="w-full"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              window.open(youtubeUrl, "_blank", "noopener,noreferrer")
+            }}
           >
-            <Button variant="ghost" size="sm" className="w-full">
-              <Youtube className="h-4 w-4 mr-2" />
-              Watch on YouTube
-            </Button>
-          </a>
+            <Youtube className="h-4 w-4 mr-2" />
+            Watch on YouTube
+          </Button>
         </div>
       </div>
     </div>

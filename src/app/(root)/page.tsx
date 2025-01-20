@@ -1,5 +1,6 @@
 import { getRecentEpisodes } from "@/actions/home_page_actions"
 import { EpisodeCardCompact } from "@/components/episode-card-compact"
+import Link from "next/link"
 
 export default async function HomePage() {
   const result = await getRecentEpisodes()
@@ -17,14 +18,18 @@ export default async function HomePage() {
 
       <section>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">
-            Top 5 Most Recently Added Episodes
-          </h2>
+          <h2 className="text-2xl font-bold">Recently Added Episodes</h2>
         </div>
         {result.success && result.data?.lastAdded.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {result.data.lastAdded.map((episode) => (
-              <EpisodeCardCompact key={episode.id} episode={episode} />
+              <Link
+                key={episode.id}
+                href={`/channel/${episode.videoId}`}
+                className="block group"
+              >
+                <EpisodeCardCompact episode={episode} />
+              </Link>
             ))}
           </div>
         ) : (
@@ -36,14 +41,18 @@ export default async function HomePage() {
 
       <section>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">
-            Top 5 Most Recently Updated Episodes
-          </h2>
+          <h2 className="text-2xl font-bold">Recently Updated Episodes</h2>
         </div>
         {result.success && result.data?.lastUpdated.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {result.data.lastUpdated.map((episode) => (
-              <EpisodeCardCompact key={episode.id} episode={episode} />
+              <Link
+                key={episode.id}
+                href={`/channel/${episode.videoId}`}
+                className="block group"
+              >
+                <EpisodeCardCompact episode={episode} />
+              </Link>
             ))}
           </div>
         ) : (
@@ -55,14 +64,18 @@ export default async function HomePage() {
 
       <section>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">
-            Top 5 Most Recently Accessed Episodes
-          </h2>
+          <h2 className="text-2xl font-bold">Recently Accessed Episodes</h2>
         </div>
         {result.success && result.data?.lastAccessed.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {result.data.lastAccessed.map((episode) => (
-              <EpisodeCardCompact key={episode.id} episode={episode} />
+              <Link
+                key={episode.id}
+                href={`/channel/${episode.videoId}`}
+                className="block group"
+              >
+                <EpisodeCardCompact episode={episode} />
+              </Link>
             ))}
           </div>
         ) : (
