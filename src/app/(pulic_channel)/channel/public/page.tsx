@@ -54,7 +54,9 @@ export default async function PublicChannelPage() {
         )}
 
         {/* Channel Title */}
-        <h1 className="text-4xl font-bold text-center">{channel.title}</h1>
+        <h1 className="text-4xl text-primary font-bold text-center">
+          {channel.title}
+        </h1>
 
         {/* Channel Description */}
         <p className="text-xl text-muted-foreground text-center max-w-2xl">
@@ -139,6 +141,16 @@ export default async function PublicChannelPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center pt-8 border-t border-border w-full">
+          <h2 className="text-2xl font-bold text-primary">
+            Made with PodcastARR
+          </h2>
+          <p className="text-muted-foreground mt-2">
+            The free app that creates a Podcast Channel for you.
+          </p>
         </div>
       </div>
     </div>

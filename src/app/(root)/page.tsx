@@ -7,18 +7,24 @@ export default async function HomePage() {
 
   return (
     <main className="container max-w-7xl mx-auto py-10 space-y-12">
-      <div className="text-center">
+      {/* <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">
-          Welcome to Your Podcast Manager
+          Welcome to Your Podcast Channel
         </h1>
         <p className="text-xl text-muted-foreground">
-          Manage and organize your podcast episodes with ease
+          PodcastARR lets you manage your podcast episodes with ease
         </p>
-      </div>
+      </div> */}
 
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Recently Added Episodes</h2>
+          <Link
+            href="/channel"
+            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            show more
+          </Link>
         </div>
         {result.success && result.data?.lastAdded.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -42,6 +48,12 @@ export default async function HomePage() {
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Recently Updated Episodes</h2>
+          <Link
+            href="/channel"
+            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            show more
+          </Link>
         </div>
         {result.success && result.data?.lastUpdated.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -65,6 +77,12 @@ export default async function HomePage() {
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Recently Accessed Episodes</h2>
+          <Link
+            href="/channel"
+            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            show more
+          </Link>
         </div>
         {result.success && result.data?.lastAccessed.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">

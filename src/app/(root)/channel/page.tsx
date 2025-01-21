@@ -53,13 +53,6 @@ export default function ChannelPage() {
 
   return (
     <main className="container max-w-7xl mx-auto py-10">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Your Podcast Channel</h1>
-        <p className="text-xl text-muted-foreground">
-          Manage and organize your podcast episodes
-        </p>
-      </div>
-
       <div className="flex justify-between items-center mb-10">
         <div className="flex items-center gap-4">
           <h2 className="text-2xl font-bold">Podcast Episodes</h2>
