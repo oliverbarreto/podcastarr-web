@@ -56,3 +56,28 @@ export async function getRecentlyModifiedEpisodes(): Promise<{
     }
   }
 }
+
+interface StatsResponse {
+  total_episodes: number
+  last_added_date: string | null
+}
+
+export async function getStatsTotals() {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/stats/totals", {
+      method: "GET",
+      headers: {
+        accept: "application/json"
+      }
+    })
+
+    if (!response.ok) {
+      return { success: false, error: "Failed to fetch stats" }
+    }
+
+    const data: StatsResponse = await response.json()
+    return { success: true, data }
+  } catch (error) {
+    return { success: false, error: `Failed to fetch stats: ${error}` }
+  }
+}

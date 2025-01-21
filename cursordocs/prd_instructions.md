@@ -430,16 +430,16 @@ The public page must have:
 
 ### Step 9 - Stats Totals
 
-The api provides a "/stats/totals" route that returns:
+The api in the backend provides a "/stats/totals" route that returns the following stats:
 
 - total_episodes: The total number of episodes in the database
 - last_added_date: The date when the last episode was added (null if no episodes)
 
-You can test the endpoint with:
+You can access the endpoint with:
 
 ```bash
 curl -X 'GET' \
-  'http://127.0.0.1:8000/api/stats/totals' \
+  'http://127.0.0.1:8000/stats/totals' \
   -H 'accept: application/json'
 ```
 
@@ -451,6 +451,8 @@ An example response is:
   "last_added_date": "2024-03-20T15:30:45.123456"
 }
 ```
+
+The frontend will use this data to show the stats in the home page at the top maintaining the same style of the app.
 
 ## Discarded Features for now
 
