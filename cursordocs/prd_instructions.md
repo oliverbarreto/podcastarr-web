@@ -452,7 +452,11 @@ An example response is:
 }
 ```
 
-The frontend will use this data to show the stats in the home page at the top maintaining the same style of the app.
+### Step 10 - Create or update the XML file for iTunes
+
+The backend api now has a route "POST /api/channel/feed" that generates the iTunes RSS Feed and another route "GET /api/channel/feed/feed.xml" to serve the XML file to iTunes or other podcast players.
+
+The frontend will use the first url to create the feed. For this it will have a button in the Channel Info page, above the channel info form, to create the feed and will showa toast notification to show the status of the request.
 
 ## Discarded Features for now
 
