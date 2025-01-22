@@ -1,6 +1,7 @@
 import { getRecentEpisodes, getStatsTotals } from "@/actions/home_page_actions"
 import { EpisodeCardCompact } from "@/components/episode-card-compact"
 import { StatsTotals } from "@/components/stats-totals"
+import { HomeHeader } from "@/components/home-header"
 import Link from "next/link"
 
 export default async function HomePage() {
@@ -9,6 +10,8 @@ export default async function HomePage() {
 
   return (
     <main className="container max-w-7xl mx-auto py-10">
+      <HomeHeader />
+
       <div className="mb-12">
         {stats.success && stats.data ? (
           <StatsTotals
