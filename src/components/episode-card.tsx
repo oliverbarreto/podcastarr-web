@@ -79,7 +79,10 @@ export function EpisodeCard({ episode }: EpisodeCardProps) {
           <div className="space-y-2 mb-4">
             <h2 className="text-xl font-semibold">Listen</h2>
             <audio controls className="w-full">
-              <source src={episode.mediaUrl} type="audio/mpeg" />
+              <source
+                src={`http://127.0.0.1:8000/audio/${episode.videoId}.m4a`}
+                type="audio/mpeg"
+              />
               Your browser does not support the audio element.
             </audio>
           </div>
