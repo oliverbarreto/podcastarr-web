@@ -121,7 +121,7 @@ The page must have the following features:
 - the user must be able to edit an episode
 - the user must be able to reproduce an audio episode in the browser
 
-#### Stats Page (DONE)
+#### Stats Page with Data from Backend
 
 Stats page to show stats of the channel (/stats)
 
@@ -136,6 +136,177 @@ Section 2:
 - The page must have a centered graph to show the number of episodes created by month.
 - When the user clicks on a column (representing a month), a grid below the graph will show the episodes for that month
 - the User must be able to clear the filter and clear the list of viedos of the selected month
+
+The stats page must be updated to show the data from the backend. To do so we have available the following routes:
+
+1. GET stats/
+
+```bash
+curl -X 'GET' \
+  'http://localhost:8000/stats?skip=0&limit=10' \
+  -H 'accept: application/json'
+```
+
+and returns a JSON with the following structure, for example:
+
+```json
+{
+  "data": [
+    {
+      "filename": "Ex-Google Head of Engineering Explains Why She Left the Company | MOONSHOTS",
+      "video_id": "MXHOAwJIOZg",
+      "count": 73,
+      "last_accessed": "2025-01-22T22:38:27.891313",
+      "tags": [],
+      "keywords": ["peter diamandis", " longevity", " xprize", " abundance"],
+      "duration": 304
+    },
+    {
+      "filename": "Así fue el regreso de Jaime Fernández, 300 días después de su lesión",
+      "video_id": "lUbobOf9uqM",
+      "count": 72,
+      "last_accessed": "2025-01-22T22:38:27.883388",
+      "tags": [],
+      "keywords": [
+        "Baloncesto",
+        " CB Canarias",
+        " La Laguna Tenerife",
+        " Liga Endesa",
+        " ACB",
+        " Jaime Fernández"
+      ],
+      "duration": 139
+    },
+    {
+      "filename": "Apple Steve Jobs Heres To The Crazy Ones",
+      "video_id": "-z4NS2zdrZc",
+      "count": 50,
+      "last_accessed": "2025-01-22T22:38:27.912620",
+      "tags": [],
+      "keywords": [
+        "Apple Inc. (Organization)",
+        "Steve Jobs (Businessperson)",
+        "motivational",
+        "inspirational",
+        "motivation",
+        "inspiration",
+        "steve jobs",
+        "crazy ones",
+        "heres to the crazy ones",
+        "change the world"
+      ],
+      "duration": 61
+    },
+    {
+      "filename": "Tu baño más inteligente, 10 ideas imprescindibles!",
+      "video_id": "uGp7g2S3hAY",
+      "count": 42,
+      "last_accessed": "2025-01-22T22:38:27.904306",
+      "tags": [],
+      "keywords": [],
+      "duration": 523
+    },
+    {
+      "filename": "How To Reset AirPods So They Can't Be Tracked",
+      "video_id": "gCiY-een7dY",
+      "count": 11,
+      "last_accessed": "2025-01-22T22:38:27.879826",
+      "tags": [],
+      "keywords": ["apps", " iPhone", " android", " ios"],
+      "duration": 129
+    },
+    {
+      "filename": "DeepSeek R1 Fully Tested - Insane Performance",
+      "video_id": "bOsvI3HYHgI",
+      "count": 5,
+      "last_accessed": "2025-01-22T22:38:27.901389",
+      "tags": [],
+      "keywords": [
+        "ai",
+        " llm",
+        " artificial intelligence",
+        " large language model",
+        " openai",
+        " mistral",
+        " chatgpt",
+        " ai news",
+        " claude",
+        " anthropic",
+        " apple ai",
+        " apple intelligence",
+        " llama",
+        " meta ai",
+        " google ai"
+      ],
+      "duration": 910
+    },
+    {
+      "filename": "OpenAI Unveils “Project Stargate” - $500 BILLION AI Mega Factories!",
+      "video_id": "6vqN8jBfQb8",
+      "count": 2,
+      "last_accessed": "2025-01-22T22:29:37.033122",
+      "tags": [],
+      "keywords": [
+        "ai",
+        " llm",
+        " artificial intelligence",
+        " large language model",
+        " openai",
+        " mistral",
+        " chatgpt",
+        " ai news",
+        " claude",
+        " anthropic",
+        " apple ai",
+        " apple intelligence",
+        " llama",
+        " meta ai",
+        " google ai"
+      ],
+      "duration": 477
+    }
+  ],
+  "total": 7,
+  "skip": 0,
+  "limit": 10
+}
+```
+
+2. GET stats/totals
+
+```bash
+curl -X 'GET' \
+  'http://localhost:8000/stats/totals' \
+  -H 'accept: application/json'
+```
+
+and returns a JSON with the following structure, for example:
+
+```json
+{
+  "total_episodes": 7,
+  "last_added_date": "2025-01-22T22:23:48.801054"
+}
+```
+
+3. GET stats/{video_id}
+
+```bash
+curl -X 'GET' \
+  'http://localhost:8000/stats/uGp7g2S3hAY' \
+  -H 'accept: application/json'
+```
+
+and returns a JSON with the following structure, for example:
+
+```json
+{
+  "filename": "Tu baño más inteligente, 10 ideas imprescindibles!",
+  "video_id": "uGp7g2S3hAY",
+  "count": 42,
+  "last_accessed": "2025-01-22T22:38:27.904306"
+}
+```
 
 #### Dark Mode Toggle (DONE)
 
