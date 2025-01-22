@@ -57,3 +57,30 @@ export async function updateChannel(formData: FormData) {
     }
   }
 }
+
+export const generateRssFeed = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/channel/feed`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error("Failed to generate RSS feed")
+    }
+
+    return { success: true }
+  } catch (error) {
+    console.error("Error generating RSS feed:", error)
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : "Failed to generate RSS feed"
+    }
+  }
+}

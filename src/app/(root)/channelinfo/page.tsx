@@ -13,7 +13,8 @@ import { User, Podcast, Info, Mail, LinkIcon } from "lucide-react"
 
 import {
   getCurrentChannel,
-  updateChannel
+  updateChannel,
+  generateRssFeed
 } from "@/actions/profile_page_actions"
 
 import { PodcastChannel } from "@/types/podcast_channel"
@@ -24,6 +25,7 @@ const ProfilePage = () => {
   const [channelInfo, setChannelInfo] = useState<PodcastChannel | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isGeneratingFeed, setIsGeneratingFeed] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -83,6 +85,34 @@ const ProfilePage = () => {
     }
   }
 
+  const handleGenerateFeed = async () => {
+    if (isGeneratingFeed) return
+    setIsGeneratingFeed(true)
+    try {
+      const result = await generateRssFeed()
+      if (result.success) {
+        toast({
+          title: "Success",
+          description: "RSS feed generated successfully"
+        })
+      } else {
+        throw new Error(result.error || "Failed to generate RSS feed")
+      }
+    } catch (error) {
+      console.error("RSS feed generation error:", error)
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to generate RSS feed",
+        variant: "destructive"
+      })
+    } finally {
+      setIsGeneratingFeed(false)
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="container max-w-3xl mx-auto py-10">
@@ -121,6 +151,23 @@ const ProfilePage = () => {
           accessed in your browser
           &apos;http://webserver.com/user/publicprofile&apos;.
         </p>
+
+        <div className="flex justify-end mt-4">
+          <Button
+            onClick={handleGenerateFeed}
+            disabled={isGeneratingFeed}
+            variant="secondary"
+          >
+            {isGeneratingFeed ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
+                Generating Feed...
+              </>
+            ) : (
+              "Generate RSS Feed"
+            )}
+          </Button>
+        </div>
 
         <div className="my-8 border-t border-border" />
       </div>
