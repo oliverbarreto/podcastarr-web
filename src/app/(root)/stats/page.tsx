@@ -21,15 +21,15 @@ import {
   //   ChartTooltipContent
 } from "@/components/ui/chart"
 import {
-  getEpisodesByTag,
+  getEpisodesByKeyword,
   getEpisodesByMonth,
-  getEpisodesBySelectedTag,
+  getEpisodesBySelectedKeyword,
   getEpisodesBySelectedMonth,
   getTotalCounts
 } from "@/actions/stats_page_actions"
-import type { PodcastEpisode } from "@/types/podcast"
+import type { VideoStats } from "@/lib/api-client"
 
-const tagChartConfig = {
+const keywordChartConfig = {
   count: {
     label: "Episodes",
     color: "hsl(var(--primary))"
@@ -45,35 +45,37 @@ const monthChartConfig = {
 
 export default function StatsPage() {
   const { toast } = useToast()
-  const [tagData, setTagData] = useState<{ tag: string; count: number }[]>([])
+  const [keywordData, setKeywordData] = useState<
+    { keyword: string; count: number }[]
+  >([])
   const [monthData, setMonthData] = useState<
     { month: string; count: number }[]
   >([])
   const [totalCounts, setTotalCounts] = useState<{
     totalEpisodes: number
-    totalTags: number
+    totalKeywords: number
     totalListeningTime?: number
   }>({
     totalEpisodes: 0,
-    totalTags: 0,
+    totalKeywords: 0,
     totalListeningTime: 0
   })
-  const [selectedTag, setSelectedTag] = useState<string | null>(null)
+  const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null)
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
-  const [filteredEpisodes, setFilteredEpisodes] = useState<PodcastEpisode[]>([])
+  const [filteredEpisodes, setFilteredEpisodes] = useState<VideoStats[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const [tagResult, monthResult, countsResult] = await Promise.all([
-          getEpisodesByTag(),
+        const [keywordResult, monthResult, countsResult] = await Promise.all([
+          getEpisodesByKeyword(),
           getEpisodesByMonth(),
           getTotalCounts()
         ])
 
-        if (tagResult.success && tagResult.data) {
-          setTagData(tagResult.data)
+        if (keywordResult.success && keywordResult.data) {
+          setKeywordData(keywordResult.data)
         }
         if (monthResult.success && monthResult.data) {
           setMonthData(monthResult.data)
@@ -95,19 +97,19 @@ export default function StatsPage() {
     loadStats()
   }, [toast])
 
-  const handleTagClick = async (tag: string) => {
+  const handleKeywordClick = async (keyword: string) => {
     try {
       setIsLoading(true)
-      const result = await getEpisodesBySelectedTag(tag)
+      const result = await getEpisodesBySelectedKeyword(keyword)
       if (result.success && result.data) {
         setFilteredEpisodes(result.data)
-        setSelectedTag(tag)
+        setSelectedKeyword(keyword)
         setSelectedMonth(null)
       }
     } catch (error) {
       toast({
         title: `Error: ${error}`,
-        description: "Failed to load episodes for selected tag",
+        description: "Failed to load episodes for selected keyword",
         variant: "destructive"
       })
     } finally {
@@ -122,7 +124,7 @@ export default function StatsPage() {
       if (result.success && result.data) {
         setFilteredEpisodes(result.data)
         setSelectedMonth(month)
-        setSelectedTag(null)
+        setSelectedKeyword(null)
       }
     } catch (error) {
       toast({
@@ -136,7 +138,7 @@ export default function StatsPage() {
   }
 
   const clearFilters = () => {
-    setSelectedTag(null)
+    setSelectedKeyword(null)
     setSelectedMonth(null)
     setFilteredEpisodes([])
   }
@@ -158,7 +160,7 @@ export default function StatsPage() {
     <div className="container mx-auto py-10">
       <div className="flex flex-row justify-between items-start mb-6">
         <h1 className="p-3 text-3xl font-bold">Podcast Statistics</h1>
-        {(selectedTag || selectedMonth) && (
+        {(selectedKeyword || selectedMonth) && (
           <Button onClick={clearFilters}>Clear Filter</Button>
         )}
       </div>
@@ -186,8 +188,12 @@ export default function StatsPage() {
               <Hash className="w-14 h-14 text-primary" />
             </div>
             <div>
-              <h3 className="text-6xl font-bold">{totalCounts.totalTags}</h3>
-              <p className="text-sm text-muted-foreground pt-4">Unique Tags</p>
+              <h3 className="text-6xl font-bold">
+                {totalCounts.totalKeywords}
+              </h3>
+              <p className="text-sm text-muted-foreground pt-4">
+                Unique Keywords
+              </p>
             </div>
           </div>
         </div>
@@ -218,24 +224,24 @@ export default function StatsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 p-3 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Episodes by Tags</CardTitle>
+            <CardTitle>Episodes by Keywords</CardTitle>
             <CardDescription>
-              Shows episodes using specific tags
+              Shows episodes using specific keywords
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={tagChartConfig}>
-              <BarChart data={tagData}>
+            <ChartContainer config={keywordChartConfig}>
+              <BarChart data={keywordData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
-                  dataKey="tag"
+                  dataKey="keyword"
                   tickLine={false}
                   tickMargin={10}
                   axisLine={false}
                   angle={-45}
                   textAnchor="end"
                   height={100}
-                  tickFormatter={(value) => value.slice(0, 15)} // Limit tag length
+                  tickFormatter={(value) => value.slice(0, 15)} // Limit keyword length
                 />
                 {/* <ChartTooltip
                   cursor={false}
@@ -245,14 +251,14 @@ export default function StatsPage() {
                   dataKey="count"
                   fill="hsl(var(--primary))"
                   radius={[8, 8, 0, 0]}
-                  onClick={(data) => handleTagClick(data.tag)}
+                  onClick={(data) => handleKeywordClick(data.keyword)}
                   cursor="pointer"
                 >
-                  {tagData.map((entry, index) => (
+                  {keywordData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={
-                        entry.tag === selectedTag
+                        entry.keyword === selectedKeyword
                           ? "hsl(var(--primary))" // Selected bar
                           : "hsl(var(--muted-foreground))" // Unselected bars
                       }
@@ -264,7 +270,7 @@ export default function StatsPage() {
           </CardContent>
           <CardFooter className="flex-col items-start gap-2 text-sm">
             <div className="leading-none text-muted-foreground">
-              Click on a bar to filter episodes by tag
+              Click on a bar to filter episodes by keyword
             </div>
           </CardFooter>
         </Card>
@@ -323,14 +329,14 @@ export default function StatsPage() {
       </div>
 
       {/* Filtered Episodes Section */}
-      {(selectedTag || selectedMonth) && (
+      {(selectedKeyword || selectedMonth) && (
         <div className="p-3 mt-6">
           <Card>
             <CardHeader className="flex flex-row justify-between items-center">
               <div className="flex flex-col md:flex-row md:items-center">
                 <CardTitle>
-                  {selectedTag
-                    ? `Episodes with tag: ${selectedTag}`
+                  {selectedKeyword
+                    ? `Episodes with keyword: ${selectedKeyword}`
                     : `Episodes from: ${selectedMonth}`}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground md:ml-4">
@@ -343,7 +349,11 @@ export default function StatsPage() {
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredEpisodes.map((episode) => (
-                  <EpisodeCardCompact key={episode.id} episode={episode} />
+                  <EpisodeCardCompact
+                    key={episode.video_id}
+                    episode={episode}
+                    href={`/channel/${episode.video_id}`}
+                  />
                 ))}
               </div>
             </CardContent>

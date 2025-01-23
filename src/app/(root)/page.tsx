@@ -41,13 +41,11 @@ export default async function HomePage() {
           {result.success && result.data?.lastAdded.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {result.data.lastAdded.map((episode) => (
-                <Link
+                <EpisodeCardCompact
                   key={episode.id}
+                  episode={episode}
                   href={`/channel/${episode.videoId}`}
-                  className="block group"
-                >
-                  <EpisodeCardCompact episode={episode} />
-                </Link>
+                />
               ))}
             </div>
           ) : (
@@ -70,13 +68,11 @@ export default async function HomePage() {
           {result.success && result.data?.lastUpdated.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {result.data.lastUpdated.map((episode) => (
-                <Link
+                <EpisodeCardCompact
                   key={episode.id}
+                  episode={episode}
                   href={`/channel/${episode.videoId}`}
-                  className="block group"
-                >
-                  <EpisodeCardCompact episode={episode} />
-                </Link>
+                />
               ))}
             </div>
           ) : (
@@ -99,13 +95,11 @@ export default async function HomePage() {
           {result.success && result.data?.lastAccessed.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {result.data.lastAccessed.map((episode) => (
-                <Link
+                <EpisodeCardCompact
                   key={episode.id}
+                  episode={episode}
                   href={`/channel/${episode.videoId}`}
-                  className="block group"
-                >
-                  <EpisodeCardCompact episode={episode} />
-                </Link>
+                />
               ))}
             </div>
           ) : (

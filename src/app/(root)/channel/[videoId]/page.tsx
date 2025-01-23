@@ -79,9 +79,8 @@ export default async function EpisodeDetailsPage({ params }: PageProps) {
                 {episode.subtitle}
               </p>
             )}
-
             <div className="flex flex-wrap gap-2">
-              {tags.map((tag, index) => (
+              {tags.map((tag: string, index: number) => (
                 <span
                   key={index}
                   className={`${

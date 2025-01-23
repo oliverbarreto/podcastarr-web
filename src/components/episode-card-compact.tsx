@@ -1,88 +1,96 @@
 "use client"
 
-import Image from "next/image"
-import { Youtube } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { formatDistanceToNow } from "date-fns"
+import type { VideoStats } from "@/lib/api-client"
 import type { PodcastEpisode } from "@/types/podcast"
 
-const tagColors = [
-  "bg-pink-500",
-  "bg-purple-500",
-  "bg-indigo-500",
-  "bg-blue-500",
-  "bg-green-500",
-  "bg-yellow-500",
-  "bg-red-500",
-  "bg-orange-500"
-]
-
 interface EpisodeCardCompactProps {
-  episode: PodcastEpisode
-  onClickYoutube?: (e: React.MouseEvent) => void
+  episode: VideoStats | PodcastEpisode
+  href?: string // Optional custom href
+  className?: string // Optional additional classes
 }
 
-export function EpisodeCardCompact({ episode }: EpisodeCardCompactProps) {
-  const tags = episode.tags || []
-  const youtubeUrl = `https://www.youtube.com/watch?v=${episode.videoId}`
+export function EpisodeCardCompact({
+  episode,
+  href,
+  className = ""
+}: EpisodeCardCompactProps) {
+  // Handle both VideoStats and PodcastEpisode types
+  const isVideoStats = (ep: VideoStats | PodcastEpisode): ep is VideoStats =>
+    "video_id" in ep && "keywords" in ep
 
-  const handleYoutubeClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    window.open(youtubeUrl, "_blank", "noopener,noreferrer")
+  const videoId = isVideoStats(episode) ? episode.video_id : episode.videoId
+  const title = isVideoStats(episode) ? episode.filename : episode.title
+  const keywords = isVideoStats(episode) ? episode.keywords || [] : []
+
+  // Handle duration with proper type checking
+  let duration = 0
+  if (isVideoStats(episode)) {
+    duration = episode.duration
   }
 
-  return (
-    <div className="border rounded-lg overflow-hidden shadow-sm flex flex-col transform transition-transform duration-300 hover:scale-105 bg-card h-full">
-      <div className="relative aspect-video w-full bg-muted">
-        {episode.imageUrl ? (
-          <Image
-            src={episode.imageUrl}
-            alt={episode.title}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-muted">
-            <span className="text-muted-foreground text-sm">No image</span>
-          </div>
-        )}
-      </div>
-      <div className="p-3 flex-grow flex flex-col">
-        <h3 className="font-semibold line-clamp-1 group-hover:text-primary transition-colors">
-          {episode.title}
-        </h3>
-        <p className="text-sm text-muted-foreground line-clamp-2 mt-1 mb-2">
-          {episode.subtitle}
-        </p>
-        <div className="flex flex-wrap gap-1 mb-4">
-          {tags.slice(0, 3).map((tag, index) => (
-            <span
-              key={tag}
-              className={`${
-                tagColors[index % tagColors.length]
-              } text-white text-xs px-1.5 py-0.5 rounded-full`}
-            >
-              #{tag}
-            </span>
-          ))}
-          {tags.length > 3 && (
-            <span className="text-xs text-muted-foreground">
-              +{tags.length - 3} more
-            </span>
-          )}
-        </div>
-        <div className="mt-auto pt-3 border-t">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="w-full"
-            onClick={handleYoutubeClick}
+  // Handle dates with proper type checking
+  let lastAccessed: string | undefined
+  if (isVideoStats(episode)) {
+    lastAccessed = episode.last_accessed
+  } else {
+    lastAccessed = episode.updatedAt?.toString()
+  }
+
+  const CardContent = () => (
+    <div className="p-4">
+      <h3 className="font-semibold line-clamp-2 mb-2">{title}</h3>
+      <div className="flex flex-wrap gap-2">
+        {keywords.slice(0, 3).map((keyword, index) => (
+          <Badge
+            key={`${keyword}-${index}`}
+            variant="outline"
+            className="text-xs bg-primary/10 hover:bg-primary/20"
           >
-            <Youtube className="h-4 w-4 mr-2" />
-            Watch on YouTube
-          </Button>
-        </div>
+            {keyword.trim()}
+          </Badge>
+        ))}
       </div>
+      {lastAccessed && (
+        <p className="text-sm text-muted-foreground mt-2">
+          {formatDistanceToNow(new Date(lastAccessed), {
+            addSuffix: true
+          })}
+        </p>
+      )}
     </div>
   )
+
+  const cardClasses = `overflow-hidden transition-transform duration-200 group-hover:scale-105 ${className}`
+
+  const card = (
+    <Card className={cardClasses}>
+      <div className="aspect-video relative">
+        <img
+          src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+          alt={title}
+          className="object-cover w-full h-full"
+        />
+        <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm">
+          {Math.floor(duration / 60)}:{String(duration % 60).padStart(2, "0")}
+        </div>
+      </div>
+      <CardContent />
+    </Card>
+  )
+
+  if (href) {
+    return (
+      <div className="group cursor-pointer">
+        <Link href={href} className="block">
+          {card}
+        </Link>
+      </div>
+    )
+  }
+
+  return card
 }
